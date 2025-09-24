@@ -1,0 +1,72 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Reviews | HeavyShop{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Customer reviews for HeavyShop.">
+    <meta name="keywords" content="HeavyShop, reviews, feedback, rating">
+    <meta name="author" content="HeavyShop LLC">
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1 id="reviews-heading">Customer Reviews</h1>
+</header>
+
+<main role="main">
+    <article aria-labelledby="reviews-heading">
+        <section aria-labelledby="reviews-list-heading">
+            <h2 id="reviews-list-heading" hidden>Reviews List</h2>
+            <div class="reviews-container">
+                {% for review in reviews %}
+                <article itemscope itemtype="https://schema.org/Review">
+                    <header>
+                        <strong itemprop="author" itemtype="https://schema.org/Person">
+                            <span itemprop="name">{{ review.user.username }}</span>
+                        </strong>
+                        <div itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating">
+                            <meta itemprop="ratingValue" content="{{ review.rating }}">
+                            <span>Rating: {{ review.rating }}/5</span>
+                        </div>
+                    </header>
+                    <p itemprop="reviewBody">{{ review.text }}</p>
+                    <footer>
+                        <time datetime="{{ review.created_at|date:'Y-m-d' }}" itemprop="datePublished">
+                            {{ review.created_at|date:"d.m.Y H:i" }}
+                        </time>
+                    </footer>
+                </article>
+                {% empty %}
+                <p>No reviews yet. Be the first to leave a review!</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section aria-labelledby="add-review-heading">
+            <h2 id="add-review-heading">Add Your Review</h2>
+            {% if user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Send Review</button>
+            </form>
+            {% else %}
+            <p>
+                <a href="{% url 'login' %}?next={% url 'reviews' %}">Log in to add a review</a>
+            </p>
+            {% endif %}
+        </section>
+    </article>
+</main>
+
+<footer role="contentinfo">
+    <nav aria-label="Reviews related links">
+        <a href="/products/">Our Products</a>
+        <a href="/about/">About Us</a>
+        <a href="/contacts/">Contact Support</a>
+    </nav>
+    <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
+</footer>
+{% endblock %}

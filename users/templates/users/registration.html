@@ -1,0 +1,105 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Registration{% endblock title %}
+
+{% block content %}
+<<<<<<< HEAD
+<main role="main" aria-label="User Registration">
+    <section class="login-reg d-flex">
+        <div class="login-title">
+            <h2>Registration</h2>
+            <form action="{% url 'user:registration' %}" method="post" aria-labelledby="registration-form">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="id_first_name" class="form-label form-stylereg">First Name</label>
+                        <input type="text" class="form-control form-stylereg" id="id_first_name"
+                               value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}"
+                               name="first_name" placeholder="Your First Name" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="id_last_name" class="form-label form-stylereg">Last Name</label>
+                        <input type="text" class="form-control form-stylereg" id="id_last_name"
+                               value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}"
+                               name="last_name" placeholder="Your Last Name" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="id_username" class="form-label form-stylereg">Username</label>
+                        <input type="text" class="form-control form-stylereg" id="id_username"
+                               value="{% if form.username.value %}{{ form.username.value }}{% endif %}"
+                               name="username" placeholder="Your Username" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="id_email" class="form-label form-stylereg">Email</label>
+                        <input type="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$",
+                               class="form-control form-stylereg" id="id_email"
+                               value="{% if form.email.value %}{{ form.email.value }}{% endif %}"
+                               name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="id_password1" class="form-label form-stylereg">Password</label>
+                        <input type="password" class="form-control form-stylereg" id="id_password1"
+                               name="password1" placeholder="Your Password" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="id_password2" class="form-label form-stylereg">Confirm Password</label>
+                        <input type="password" class="form-control form-stylereg" id="id_password2"
+                               name="password2" placeholder="Your Password" required>
+=======
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm p-4">
+                <h2 class="mb-3 text-center">Create Account</h2>
+                <form action="{% url "user:registration" %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_first_name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="id_first_name"
+                               value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}"
+                               name="first_name" placeholder="Enter your first name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_last_name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="id_last_name"
+                               value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}"
+                               name="last_name" placeholder="Enter your last name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="id_username"
+                               value="{% if form.username.value %}{{ form.username.value }}{% endif %}"
+                               name="username" placeholder="Choose a username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="id_email"
+                               value="{% if form.email.value %}{{ form.email.value }}{% endif %}"
+                               name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_password1" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="id_password1"
+                               value="{% if form.password1.value %}{{ form.password1.value }}{% endif %}"
+                               name="password1" placeholder="Choose a strong password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_password2" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="id_password2"
+                               value="{% if form.password2.value %}{{ form.password2.value }}{% endif %}"
+                               name="password2" placeholder="Confirm your password" required>
+>>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </form>
+            </div>
+        </div>
+<<<<<<< HEAD
+    </section>
+</main>
+=======
+    </div>
+</div>
+>>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
+{% endblock content %}

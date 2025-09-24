@@ -1,0 +1,68 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Dictionary of Terms | HeavyShop{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Dictionary of terms and FAQ for HeavyShop.">
+    <meta name="keywords" content="HeavyShop, dictionary, FAQ, terms, questions, answers">
+    <meta name="author" content="HeavyShop LLC">
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1 id="dictionary-heading">Dictionary of Terms & FAQ</h1>
+</header>
+
+<main role="main">
+    <article aria-labelledby="dictionary-heading">
+
+        {% if selected_term %}
+        <section aria-labelledby="term-detail-heading">
+            <h2 id="term-detail-heading" hidden>Term Detail</h2>
+            <article itemscope itemtype="https://schema.org/DefinedTerm">
+                <header>
+                    <h2 itemprop="name">{{ selected_term.question }}</h2>
+                    <p><small>Added: <time datetime="{{ selected_term.added_at|date:'Y-m-d' }}">{{ selected_term.added_at|date:"d.m.Y" }}</time></small></p>
+                </header>
+                <div itemprop="description">
+                    {{ selected_term.answer|linebreaks }}
+                </div>
+                <footer>
+                    <p><a href="{% url 'terms' %}">Back to dictionary</a></p>
+                </footer>
+            </article>
+        </section>
+        {% else %}
+        <section aria-labelledby="terms-list-heading">
+            <h2 id="terms-list-heading">Terms</h2>
+            <ul>
+                {% for term in terms %}
+                <details itemscope itemtype="https://schema.org/DefinedTerm">
+                        <summary>
+                            <strong itemprop="name">{{ term.question }}</strong>
+                            <small>(Added: <time datetime="{{ term.added_at|date:'Y-m-d' }}">{{ term.added_at|date:"d.m.Y" }}</time>)</small>
+                        </summary>
+                        <div itemprop="description">
+                            {{ term.answer|linebreaks }}
+                        </div>
+                    </details>
+                {% empty %}
+                <li>No terms found.</li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% endif %}
+    </article>
+</main>
+
+<footer role="contentinfo">
+    <nav aria-label="Dictionary related links">
+        <a href="/support/">Support Center</a>
+        <a href="/guides/">User Guides</a>
+        <a href="/contacts/">Contact for Help</a>
+    </nav>
+    <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
+</footer>
+{% endblock %}

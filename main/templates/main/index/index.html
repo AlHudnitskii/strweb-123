@@ -1,0 +1,86 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}HeavyShop - Industrial Equipment{% endblock title %}
+
+{% block content %}
+<header role="banner">
+    <nav role="navigation" aria-label="Main navigation">
+        <a href="/">
+            <img src="{% static 'img/logo.png' %}" alt="HeavyShop Logo"  width="200" style="max-width: 100%; height: auto; margin: 0 auto; ">
+        </a>
+    </nav>
+</header>
+
+<main role="main">
+    <section aria-label="Promotional banners">
+        <div class="banner-container">
+            <img src="{% static 'img/banner1.png' %}" alt="HeavyShop Industrial Equipment" width="300" style="max-width: 100%; height: auto;">
+            <img src="{% static 'img/banner2.png' %}" alt="Quality Tools and Machinery"  width="300" style="max-width: 100%; height: auto; ;">
+            <img src="{% static 'img/banner3.png' %}" alt="Professional Equipment Solutions"  width="300" style="max-width: 100%; height: auto; ">
+        </div>
+    </section>
+
+    <section aria-label="Featured products">
+        <h1>Our Products</h1>
+        <div class="products-grid">
+            {% for product in products %}
+            <article itemscope itemtype="http://schema.org/Product">
+                <header>
+                    <h2 itemprop="name">{{ product.name }}</h2>
+                </header>
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" itemprop="image" width="400" style="max-width: 100%; height: auto; display: block; margin: 0 auto; ">
+                <p itemprop="description">{{ product.short_description }}</p>
+                <footer>
+                    <a href="/shop/" class="product-link">View Details</a>
+                </footer>
+            </article>
+            {% empty %}
+            <p>No products available at the moment.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <aside aria-label="Latest news article">
+        <h2>Latest News</h2>
+        {% if last_article %}
+        <article itemscope itemtype="http://schema.org/Article">
+            <header>
+                <h3 itemprop="headline">{{ last_article.title }}</h3>
+            </header>
+            <p itemprop="description">{{ last_article.short_info }}</p>
+            <footer>
+                <a href="/news/{{ last_article.id }}/">Read Full Article</a>
+            </footer>
+        </article>
+        {% else %}
+        <p>No articles available yet.</p>
+        {% endif %}
+    </aside>
+
+    <section aria-label="Our partners">
+        <h2>Partner Companies</h2>
+        <div class="partners-grid">
+            {% for partner in partners %}
+            <figure itemscope itemtype="http://schema.org/Organization">
+                <a href="{{ partner.website }}" target="_blank" rel="noopener" itemprop="url">
+                    <img src="{{ partner.logo.url }}" alt="{{ partner.name }} logo" itemprop="logo" width="150" style="max-width: 100%; height: auto; display: block; margin: 0 auto; ">
+                </a>
+                <figcaption itemprop="name">{{ partner.name }}</figcaption>
+            </figure>
+            {% empty %}
+            <p>No partners available yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+
+<footer role="contentinfo">
+    <p>&copy; 2025 HeavyShop. All rights reserved.</p>
+    <nav aria-label="Footer navigation">
+        <a href="/privacy/">Privacy Policy</a>
+        <a href="/terms/">Terms of Service</a>
+        <a href="/contacts/">Contact Us</a>
+    </nav>
+</footer>
+{% endblock content %}

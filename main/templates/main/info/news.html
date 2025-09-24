@@ -1,0 +1,83 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}HeavyShop News{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Latest news and articles from HeavyShop: industrial equipment, tools, company updates.">
+    <meta name="keywords" content="HeavyShop, news, articles, equipment, tools">
+    <meta name="author" content="HeavyShop LLC">
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1 id="news-heading">HeavyShop News</h1>
+</header>
+
+<main role="main">
+    <section aria-labelledby="news-heading">
+        {% if selected_article %}
+            <article itemscope itemtype="http://schema.org/Article">
+                <header>
+                    <h2 itemprop="headline">{{ selected_article.title }}</h2>
+                    <time datetime="{{ selected_article.created_at|date:'Y-m-d' }}" itemprop="datePublished">
+                        Published: {{ selected_article.created_at|date:"F d, Y" }}
+                    </time>
+                </header>
+                
+                {% if selected_article.image %}
+                <figure>
+                    <img src="{{ selected_article.image.url }}" alt="{{ selected_article.title }}" itemprop="image" width="300" height="600" style="max-width: 100%; height: auto;">
+                </figure>
+                {% endif %}
+                
+                <div itemprop="description">
+                    <p><strong>{{ selected_article.short_info }}</strong></p>
+                </div>
+                
+                <div itemprop="articleBody">
+                    {{ selected_article.content|linebreaks }}
+                </div>
+            </article>
+        {% else %}
+            <div class="news-container">
+                {% for article in articles %}
+                <details itemscope itemtype="http://schema.org/Article">
+                    <summary>
+                        {% if article.image %}
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}" itemprop="image" width="300" height="600" style="max-width: 100%; height: auto;">
+                        {% endif %}
+                        <div>
+                            <h2 itemprop="headline">{{ article.title }}</h2>
+                            <time datetime="{{ article.created_at|date:'Y-m-d' }}" itemprop="datePublished">
+                                {{ article.created_at|date:"F d, Y" }}
+                            </time>
+                            <p itemprop="description">{{ article.short_info }}</p>
+                        </div>
+                    </summary>
+                    
+                    <div itemprop="articleBody">
+                        {% if article.image %}
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}" itemprop="image" width="300" height="600" style="max-width: 100%; height: auto;">
+                        {% endif %}
+                        {{ article.content|linebreaks }}
+                    </div>
+                </details>
+                {% empty %}
+                <p>No news available at the moment.</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+</main>
+
+<footer role="contentinfo">
+    <nav aria-label="News related links">
+        <a href="/about/">About Us</a>
+        <a href="/contacts/">Contact</a>
+        <a href="/terms/">Terms</a>
+    </nav>
+    <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
+</footer>
+{% endblock %}

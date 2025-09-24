@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+    <header style="height: 80px; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <div style="max-width: 1400px; margin: 0 auto; padding: 0 15px; display: flex; align-items: center; justify-content: space-between;">
+            <nav>
+                <ul style="display: flex; align-items: center; margin: 0; padding: 0; list-style: none;">
+                    <li><a href="/" style="text-decoration: none; color: #000; margin: 0 10px;">Home</a></li>
+                    <li><a href="/shop" style="text-decoration: none; color: #000; margin: 0 10px;">Shop</a></li>
+                    <li><a href="/about" style="text-decoration: none; color: #000; margin: 0 10px;">About</a></li>
+                    <li><a href="/news" style="text-decoration: none; color: #000; margin: 0 10px;">News</a></li>
+                    <li><a href="/terms" style="text-decoration: none; color: #000; margin: 0 10px;">Terms</a></li>
+                    <li><a href="/contacts" style="text-decoration: none; color: #000; margin: 0 10px;">Contacts</a></li> 
+                    <li><a href="/vacancies" style="text-decoration: none; color: #000; margin: 0 10px;">Vacancies</a></li>
+                    <li><a href="/reviews" style="text-decoration: none; color: #000; margin: 0 10px;">Reviews</a></li>
+                    <li><a href="/promocodes" style="text-decoration: none; color: #000; margin: 0 10px;">Codes</a></li>
+                    <li><a href="/statistics" style="text-decoration: none; color: #000; margin: 0 10px;">Statistics</a></li>
+                    <li><a href="/privacy" style="text-decoration: none; color: #000; margin: 0 10px;">Privacy</a></li>
+                </ul>
+            </nav>
+            <div style="display: flex; align-items: center;">
+                <a href="{% url "cart:cart_detail" %}" style="display: flex; align-items: center;">
+                    <img src="{% static 'img/grob.png' %}" alt="Cart" style="width: 35px; height: 35px; margin-right: 10px;">
+                </a>
+                <span style="background-color: #000; color: white; padding: 2px 6px; border-radius: 50%; margin-left: 5px;">
+                    {% with cart_quantity=cart|length %}
+                        {% if cart_quantity > 0 %}
+                            {{ cart_quantity }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    {% endwith %}
+                </span>
+                {% if user.is_authenticated %}
+                    <a href="{% url "users:profile" %}" style="text-decoration: none; color: #000; margin: 0 10px;">PROFILE</a>
+                {% else %}
+                    <a href="{% url "users:login" %}" style="text-decoration: none; color: #000; margin: 0 10px;">LOGIN</a>
+                {% endif %} 
+            </div> 
+        </div>
+    </header>
+    <div style="max-width: 1400px; margin: 0 auto; padding: 0 15px;">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</body>
+</html>

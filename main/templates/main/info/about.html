@@ -1,0 +1,137 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}About HeavyShop{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="HeavyShop - supplier of industrial equipment and tools. Company history, details, certificate.">
+    <!-- Устарело-->
+    <meta name="keywords" content="HeavyShop, industrial equipment, tools, company, certificate, history">
+    
+    <meta name="author" content="HeavyShop LLC">
+
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+<header>
+    <div itemprop="description">
+        <p>
+            <strong>HeavyShop</strong> is your trusted supplier of <em>industrial equipment</em> and tools.
+        </p>
+        
+        <blockquote>
+            Since our foundation, we have been committed to providing high-quality products for 
+            construction, manufacturing, and engineering companies.
+        </blockquote>
+        <q>Since our foundation, we have been committed to providing high-quality products</q>
+        <p>Our mission is to make heavy-duty solutions accessible and reliable for every business.</p>
+        
+        <pre><code>print("11")</code></pre>
+        
+        <abbr title="project management">PM</abbr>
+        <time datetime="2025-09-11">11 сентября 2025</time>
+    </div>
+</header>
+
+<main>
+    <section aria-labelledby="company-heading" itemscope itemtype="http://schema.org/Organization">
+        <h1 id="company-heading"><span itemprop="name">About <mark>HeavyShop</mark></span></h1>
+        
+        <dl>
+            <dt>HTML</dt>
+            <dd>Язык разметки для создания веб-страниц.</dd>
+        </dl>
+        
+        <p>17 30 48<br>
+        140 10 01<br>
+        126 138<br>
+        140 3 501</p>
+        
+        <a href="https://example.com">Go to site</a>
+        <a href="music.mp3" download="music.mp3">Download File</a>
+        
+        <article>
+            <img src="{% static 'img/logo.png' %}" alt="HeavyShop Company Logo" itemprop="logo" width="600" 
+                    style="max-width: 100%; height: auto; display: block; margin: 0 auto; ">
+
+            <figure>
+                <video controls aria-label="HeavyShop company promotional video" class="responsive-video" muted>
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <figcaption><em>Watch how our equipment works and brings value to our clients!</em></figcaption>
+            </figure>
+
+            <h3>Iframe:</h3>
+            <iframe src="https://example.com" title="Пример встроенной страницы" class="responsive-iframe" sandbox="allow-same-origin">
+            </iframe>
+
+            <h3>Audio player:</h3>
+            <audio controls>
+                <source src="{% static 'music.mp3' %}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </article>
+    </section>
+
+    <section aria-labelledby="history-heading">
+        <h2 id="history-heading">Company History</h2>
+        
+        <article>
+            <ul>
+                <li><strong>2018:</strong> HeavyShop was founded by a team of engineers and business experts.</li>
+                <li><strong>2019:</strong> First online catalog launched, serving over <mark>500 clients</mark>.</li>
+                <li><strong>2020:</strong> Expanded product range to include international brands.</li>
+                <li><strong>2022:</strong> Opened our first warehouse and logistics center in <strong>Minsk</strong>.</li>
+                <li><strong>2024:</strong> HeavyShop recognized as a leading supplier in Belarus.</li>
+            </ul>
+        </article>
+    </section>
+
+    <section aria-labelledby="details-heading">
+        <h2 id="details-heading">Company Details</h2>
+        
+        <article>
+            <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                <span itemprop="name">HeavyShop LLC</span><br>
+                Address: <span itemprop="streetAddress">45 Industrial Avenue</span>, 
+                <span itemprop="addressLocality">Minsk</span>, 
+                <span itemprop="addressCountry">Belarus</span><br>
+                Phone: <a href="tel:+375295551234" itemprop="telephone">+375 29 555-12-34</a><br>
+                Email: <a href="mailto:info@heavyshop.by" itemprop="email">info@heavyshop.by</a><br>
+                Registration number: <span itemprop="taxID">123456789</span>
+            </address>
+        </article>
+    </section>
+
+    <section aria-labelledby="certificate-heading">
+        <h2 id="certificate-heading">Certificate</h2>
+        
+        <article>
+            <figure>
+                <img src="{% static 'img/reg.png' %}" alt="HeavyShop Registration Certificate" width="600" 
+                    style="max-width: 100%; height: auto; display: block; margin: 0 auto; ">
+                <figcaption>
+                    <pre>
+    Certificate № 987654
+    Issued to: HeavyShop LLC
+    Date: 2025-09-10
+    Valid until: 2030-09-10
+    Certified by: Belarus Industrial Association
+                    </pre>
+                </figcaption>
+            </figure>
+        </article>
+    </section>
+</main>
+
+<footer>
+    <nav aria-label="Related links">
+        <a href="/privacy/">Privacy Policy</a>
+        <a href="/terms/">Terms of Service</a>
+        <a href="/contacts/">Contact Us</a>
+    </nav>
+    <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
+</footer>
+{% endblock %}

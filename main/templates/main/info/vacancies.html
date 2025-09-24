@@ -1,0 +1,52 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Vacancies | HeavyShop{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Current job vacancies at HeavyShop.">
+    <meta name="keywords" content="HeavyShop, jobs, vacancies, careers">
+    <meta name="author" content="HeavyShop LLC">
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1 id="vacancies-heading">Current Vacancies</h1>
+</header>
+
+<main role="main">
+    <article aria-labelledby="vacancies-heading">
+
+        <section aria-labelledby="vacancies-list-heading">
+            <h2 id="vacancies-list-heading" hidden>Available Positions</h2>
+            <div class="vacancies-container">
+                {% for vacancy in vacancies %}
+                <article itemscope itemtype="http://schema.org/JobPosting">
+                    <header>
+                        <h2 itemprop="title">{{ vacancy.title }}</h2>
+                        <time datetime="{{ vacancy.published_at|date:'Y-m-d' }}" itemprop="datePosted">
+                            Published: {{ vacancy.published_at|date:"d.m.Y" }}
+                        </time>
+                    </header>
+                    <div itemprop="description">
+                        {{ vacancy.description }}
+                    </div>
+                </article>
+                {% empty %}
+                <p>No vacancies available at the moment. Please check back later.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </article>
+</main>
+
+<footer role="contentinfo">
+    <nav aria-label="Career related links">
+        <a href="/about/">About Company</a>
+        <a href="/benefits/">Employee Benefits</a>
+        <a href="/contacts/">HR Department</a>
+    </nav>
+    <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
+</footer>
+{% endblock %}

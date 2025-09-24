@@ -1,0 +1,142 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}{% if category %}{{ category.name }}{% else %}Products{% endif %} - Shop{% endblock title %}
+
+{% block meta %}
+    <meta name="description" content="Browse our collection of {% if category %}{{ category.name }}{% else %}industrial equipment and tools{% endif %} at HeavyShop.">
+    <meta name="keywords" content="HeavyShop, {% if category %}{{ category.name }}, {% endif %}products, industrial equipment, tools">
+    <meta name="author" content="HeavyShop LLC">
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1>{% if category %}{{ category.name }}{% else %}All Products{% endif %}</h1>
+</header>
+
+<main role="main">
+    <div class="product-layout">
+        <aside aria-labelledby="categories-heading">
+            <h2 id="categories-heading">Categories</h2>
+            <nav aria-label="Product categories">
+                <ul>
+                    <li {% if not category %}class="selected"{% endif %}>
+                        <a href="{% url 'main:product_list' %}">All Products</a>
+                    </li>
+                    {% for c in categories %}
+                    <li {% if category.slug == c.slug %}class="selected"{% endif %}>
+                        <a href="{{ c.get_absolute_url }}" class="text-decoration-none text-dark">{{ c.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </aside>
+
+        <div class="main-content">
+            <header>
+                <h1>{% if category %}{{ category.name }}{% else %}All Products{% endif %}</h1>
+            </header>
+
+            <section aria-labelledby="sorting-heading">
+                <h2 id="sorting-heading" hidden>Sorting and Search</h2>
+                <div class="filter-controls">
+                    <fieldset  class="sorting">
+                        <label for="sort_by">Sort by:</label>
+                        <select id="sort_by" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                            <option value="{% url 'main:product_list' %}?sort=name" {% if sort_by == 'name' %}selected{% endif %}>Name A-Z</option>
+                            <option value="{% url 'main:product_list' %}?sort=-name" {% if sort_by == '-name' %}selected{% endif %}>Name Z-A</option>
+                            <option value="{% url 'main:product_list' %}?sort=-price" {% if sort_by == '-price' %}selected{% endif %}>Price: High to Low</option>
+                            <option value="{% url 'main:product_list' %}?sort=price" {% if sort_by == 'price' %}selected{% endif %}>Price: Low to High</option>
+                        </select>
+                    </fieldset>
+                    
+                    <div class="searching">
+                        <form action="" method="get" role="search">
+                            <input type="text" name="q" placeholder="Search products..." aria-label="Search products">
+                            <button type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <section aria-labelledby="products-heading">
+                <h2 id="products-heading" hidden>Product List</h2>
+                <div class="products-grid">
+                    {% for product in products %}
+                    <article class="product-card" itemscope itemtype="http://schema.org/Product">
+                        <a href="{{ product.get_absolute_url }}" itemprop="url">
+                            <figure>
+                                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/noimage.jpg' %}{% endif %}" 
+                                     alt="{{ product.name }}" itemprop="image" width="200" height="600" style="max-width: 100%; height: auto;">
+                            </figure>
+                            <div class="product-info">
+                                <h3 itemprop="name">{{ product.name }}</h3>
+                                <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                                    {% if product.discount %}
+                                    <div class="pricing">
+                                        <span class="original-price">${{ product.price }}</span>
+                                        <span class="sale-price" itemprop="price" content="{{ product.sell_price }}">
+                                            ${{ product.sell_price }}
+                                        </span>
+                                    </div>
+                                    {% else %}
+                                    <span class="price" itemprop="price" content="{{ product.price }}">
+                                        ${{ product.price }}
+                                    </span>
+                                    {% endif %}
+                                    <meta itemprop="priceCurrency" content="USD">
+                                    <link itemprop="availability" href="http://schema.org/InStock">
+                                </div>
+                            </div>
+                        </a>
+                    </article>
+                    {% empty %}
+                    <p>No products found.</p>
+                    {% endfor %}
+                </div>
+            </section>
+
+            {% if products.paginator.num_pages > 1 %}
+            <nav aria-label="Products pagination">
+                <ul class="pagination">
+                    <li>
+                        <a href="{% if products.has_previous %}?page={{ products.previous_page_number }}{% endif %}" 
+                           {% if not products.has_previous %}aria-disabled="true"{% endif %}>
+                            Previous
+                        </a>
+                    </li>
+                    
+                    {% for page in products.paginator.page_range %}
+                    {% if page >= products.number|add:-2 and page <= products.number|add:2 %}
+                    <li>
+                        <a href="?page={{ page }}" 
+                           {% if products.number == page %}aria-current="page"{% endif %}>
+                            {{ page }}
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+
+                    <li>
+                        <a href="{% if products.has_next %}?page={{ products.next_page_number }}{% endif %}" 
+                           {% if not products.has_next %}aria-disabled="true"{% endif %}>
+                            Next
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</main>
+
+<footer role="contentinfo">
+    <nav aria-label="Shop related links">
+        <a href="/about/">About Us</a>
+        <a href="/support/">Customer Support</a>
+        <a href="/shipping/">Shipping Info</a>
+    </nav>
+    <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
+</footer>
+{% endblock content %}

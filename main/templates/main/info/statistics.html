@@ -1,0 +1,105 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Sales Statistics | HeavyShop{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Sales statistics and analytics for HeavyShop.">
+    <meta name="keywords" content="HeavyShop, statistics, sales, analytics, revenue">
+    <meta name="author" content="HeavyShop LLC">
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1 id="statistics-heading">Sales Statistics</h1>
+</header>
+
+<main role="main">
+    <article aria-labelledby="statistics-heading">
+        <section aria-labelledby="overview-stats-heading">
+            <h2 id="overview-stats-heading" hidden>Overview Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card" itemscope itemtype="https://schema.org/AggregateOffer">
+                    <h3>Total Sales</h3>
+                    <p class="stat-value" itemprop="highPrice">${{ total_sales|floatformat:2 }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Total Orders</h3>
+                    <p class="stat-value">{{ total_orders }}</p>
+                </div>
+
+                <div class="stat-card" itemscope itemtype="https://schema.org/AggregateOffer">
+                    <h3>Average Order</h3>
+                    <p class="stat-value" itemprop="lowPrice">${{ avg_order|floatformat:2 }}</p>
+                </div>
+            </div>
+        </section>
+
+        <section aria-labelledby="top-products-heading">
+            <h2 id="top-products-heading">Top Selling Products</h2>
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Units Sold</th>
+                        <th scope="col">Revenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in top_products %}
+                    <tr itemscope itemtype="https://schema.org/Product">
+                        <td itemprop="name">{{ product.name }}</td>
+                        <td>{{ product.category.name }}</td>
+                        <td>{{ product.total_sold|default:0 }}</td>
+                        <td>${{ product.sell_price|default:0|floatformat:2 }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">No sales data available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section aria-labelledby="sales-comparison-heading">
+            <h2 id="sales-comparison-heading">Sales Comparison</h2>
+            <div class="ladder-chart">
+                {% for category in category_stats %}
+                <div class="ladder-item">
+                    <div class="ladder-category">{{ category.category__name }}</div>
+                    <div class="ladder-bars">
+                        <div class="ladder-bar units" style="--value: {{ category.unit_percentage|floatformat:2 }}%;">
+                            <span>{{ category.total_sold|default:0 }} units ({{ category.unit_percentage|floatformat:0 }}%)</span>
+                            <div class="ladder-value units-value">
+                                {{ category.total_sold|default:0 }}
+                            </div>
+                        </div>
+                        <div class="ladder-bar revenue" style="--value: {{ category.revenue_percentage|floatformat:2 }}%;">
+                            <span>${{ category.total_revenue|default:0|floatformat:2 }} ({{ category.revenue_percentage|floatformat:0 }}%)</span>
+                            <div class="ladder-value revenue-value">
+                                ${{ category.total_revenue|default:0|floatformat:2 }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No category data available</p>
+                {% endfor %}
+            </div>
+        </section>
+    </article>
+</main>
+
+<footer role="contentinfo">
+    <nav aria-label="Statistics related links">
+        <a href="/reports/">Detailed Reports</a>
+        <a href="/analytics/">Analytics Dashboard</a>
+        <a href="/export/">Export Data</a>
+    </nav>
+    <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
+</footer>
+{% endblock %}

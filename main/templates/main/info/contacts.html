@@ -1,0 +1,98 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Contacts | HeavyShop{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Contacts of HeavyShop employees: photos, positions, phones, emails.">
+    <meta name="keywords" content="HeavyShop, contacts, employees, staff, phone, email">
+    <meta name="author" content="HeavyShop LLC">
+    <meta property="og:title" content="Our Team - HeavyShop">
+    <meta property="og:description" content="Meet the HeavyShop team: experienced professionals ready to help you.">
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1 id="team-heading">Our <mark>Team</mark></h1>
+    <p>Meet the experienced professionals behind HeavyShop</p>
+</header>
+
+<div class="main-content">
+    <section aria-labelledby="team-heading" itemscope itemtype="http://schema.org/Organization">
+        <div class="employees-grid">
+            {% for employee in employees %}
+            <article class="employee-card" itemscope itemtype="http://schema.org/Person">
+                <header>
+                    <h2 itemprop="name">{{ employee.name }}</h2>
+                    <p class="employee-position" itemprop="jobTitle">{{ employee.position }}</p>
+                </header>
+                
+                {% if employee.photo %}
+                <figure>
+                    <img src="{{ employee.photo.url }}" alt="Portrait of {{ employee.name }}" itemprop="image" width="200" height="600" style="max-width: 100%; height: auto;">
+                </figure>
+                {% endif %}
+
+                <div class="employee-contacts">
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <a href="tel:{{ employee.phone }}" itemprop="telephone">{{ employee.phone }}</a>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <span class="contact-icon">✉️</span>
+                        <a href="mailto:{{ employee.email }}" itemprop="email">{{ employee.email }}</a>
+                    </div>
+                </div>
+
+                <footer>
+                    <p itemprop="description">{{ employee.description }}</p>
+                </footer>
+            </article>
+            {% empty %}
+            <div class="no-employees">
+                <p>No team members available at the moment.</p>
+                <p>Please check back later or <a href="/contacts/">contact us</a> directly.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <aside aria-labelledby="company-contacts-heading" id="company-contacts">
+        <header>
+            <h2 id="company-contacts-heading">Company Contacts</h2>
+        </header>
+        
+        <article itemscope itemtype="http://schema.org/Organization">
+            <address>
+                <strong itemprop="name">HeavyShop LLC</strong><br>
+                <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                    <span itemprop="streetAddress">45 Industrial Avenue</span>,<br>
+                    <span itemprop="addressLocality">Minsk</span>, 
+                    <span itemprop="addressCountry">Belarus</span>
+                </span><br>
+                <section id="phone-section">
+                    General Phone: <a href="tel:+375295551234" itemprop="telephone">+375 29 555-12-34</a><br>
+                </section>
+                General Email: <a href="mailto:info@heavyshop.by" itemprop="email">info@heavyshop.by</a>
+            </address>
+        </article>
+    </aside>
+</div>
+
+<nav class="vertical-nav" aria-label="Quick links">
+    <h3>Quick Navigation</h3>
+    <a href="#team-heading">Team Members</a>
+    <a href="#company-contacts">Company Info</a>
+</nav>
+
+<footer role="contentinfo" id="footer">
+    <nav aria-label="Related contact pages" id="support">
+        <a href="/about/">About Us</a>
+        <a href="/support/">Support</a>
+        <a href="/faq/">FAQ</a>
+    </nav>
+    <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
+</footer>
+{% endblock %}

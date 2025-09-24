@@ -1,0 +1,63 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Promo Codes & Coupons | HeavyShop{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="List of active and archived promo codes and coupons for HeavyShop.">
+    <meta name="keywords" content="HeavyShop, promo codes, coupons, discounts">
+    <meta name="author" content="HeavyShop LLC">
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1 id="promocodes-heading">Promo Codes & Coupons</h1>
+</header>
+
+<main role="main">
+    <article aria-labelledby="promocodes-heading">
+        <section aria-labelledby="active-promocodes-heading">
+            <h2 id="active-promocodes-heading">Active Promo Codes</h2>
+            <ul>
+                {% for promo in active_promocodes %}
+                <li itemscope itemtype="https://schema.org/Offer">
+                    <strong itemprop="name">{{ promo.code }}</strong> — <span itemprop="description">{{ promo.description }}</span>
+                    {% if promo.valid_until %}
+                    <meta itemprop="validThrough" content="{{ promo.valid_until|date:'Y-m-d' }}">
+                    (Valid until: <time datetime="{{ promo.valid_until|date:'Y-m-d' }}">{{ promo.valid_until|date:"d.m.Y" }}</time>)
+                    {% endif %}
+                </li>
+                {% empty %}
+                <li>No active promo codes available at the moment.</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section aria-labelledby="archived-promocodes-heading">
+            <h2 id="archived-promocodes-heading">Archived Promo Codes</h2>
+            <ul>
+                {% for promo in archived_promocodes %}
+                <li>
+                    <strong>{{ promo.code }}</strong> — {{ promo.description }}
+                    {% if promo.valid_until %}
+                    (Expired: <time datetime="{{ promo.valid_until|date:'Y-m-d' }}">{{ promo.valid_until|date:"d.m.Y" }}</time>)
+                    {% endif %}
+                </li>
+                {% empty %}
+                <li>No archived promo codes.</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </article>
+</main>
+
+<footer role="contentinfo">
+    <nav aria-label="Related discount pages">
+        <a href="/specials/">Special Offers</a>
+        <a href="/sale/">Sale Items</a>
+        <a href="/contacts/">Contact for Support</a>
+    </nav>
+    <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
+</footer>
+{% endblock %}
