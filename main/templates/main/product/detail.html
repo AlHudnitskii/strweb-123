@@ -15,27 +15,27 @@
     <h1 itemprop="name">{{ product.name }}</h1>
 </header>
 
-<table border="1">
+<table class="product-table">
     <tr>
-        <th id="product-image" colspan="2">Product Image</th>
-        <th id="product-info" colspan="3">Product Information</th>
+        <th colspan="2">Product Image</th>
+        <th colspan="3">Product Information</th>
     </tr>
     <tr>
-        <td headers="product-image" rowspan="5">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="400" height="600" style="max-width: 100%; height: auto;">
+        <td rowspan="5">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
         </td>
     </tr>
     <tr>
-        <th id="category">Category</th>
-        <td headers="category" colspan="2">{{ product.category }}</td>
+        <th>Category</th>
+        <td colspan="2">{{ product.category }}</td>
     </tr>
     <tr>
-        <th id="description" rowspan="2">Description</th>
-        <td headers="description" colspan="2">{{ product.description|linebreaks }}</td>
+        <th rowspan="2">Description</th>
+        <td colspan="2">{{ product.description|linebreaks }}</td>
     </tr>
     <tr>
-        <th id="pricing">Price</th>
-        <td headers="pricing">
+        <th>Price</th>
+        <td>
             {% if product.discount %}
                 <span class="original-price">${{ product.price }}</span>
                 <span class="sale-price">${{ product.sell_price }}</span>
@@ -45,21 +45,21 @@
         </td>
     </tr>
     <tr>
-        <th id="quantity">Quantity</th>
-        <td headers="quantity">{{ cart_product_form }}</td>
-        <td><form action="{% url "cart:cart_add" product.id %}" class="qform" method="post">
-                <div class="cart-form mb-3">
-                    {{ cart_product_form }}
-                    {% csrf_token %}
-                </div>
-                <button type="submit" class="add-to-cart-btn btn btn-primary">Add to cart</button>
-            </form></button></td>
+        <th>Quantity</th>
+        <td>{{ cart_product_form }}</td>
+        <td>
+            <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                {{ cart_product_form }}
+                {% csrf_token %}
+                <button type="submit">Add to cart</button>
+            </form>
+        </td>
     </tr>
     <tr>
-        <th id="currency">Currency</th>
-        <td headers="currency">USD</td>
-        <th id="availability">Availability</th>
-        <td headers="availability" colspan="2">In Stock</td>
+        <th>Currency</th>
+        <td>USD</td>
+        <th>Availability</th>
+        <td colspan="2">In Stock</td>
     </tr>
 </table>
 
@@ -69,4 +69,17 @@
     </nav>
     <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
 </footer>
+<style>
+    tr:first-of-type { color: greenyellow; }
+    td:last-of-type { color: lightsalmon; }
+    tr:nth-child(even) { color: olivedrab; }
+
+    .table-title { text-align: center; margin-bottom: 20px; }
+    .product-table { border-collapse: collapse; width: 500px; margin: 0 auto; }
+    .product-table th, .product-table td { border: 1px solid #ddd; padding: 10px; text-align: center; vertical-align: middle; }
+    .product-table td:empty { background: wheat; }
+    .product-table img { max-width: 500px; height: auto; }
+
+
+</style>
 {% endblock content %}

@@ -18,11 +18,11 @@
 <main role="main">
     <article aria-labelledby="vacancies-heading">
 
-        <section aria-labelledby="vacancies-list-heading">
+        <section aria-labelledby="vacancies-list-heading" class="vacancies">
             <h2 id="vacancies-list-heading" hidden>Available Positions</h2>
             <div class="vacancies-container">
                 {% for vacancy in vacancies %}
-                <article itemscope itemtype="http://schema.org/JobPosting">
+                <article itemscope itemtype="http://schema.org/JobPosting" class="vacancy">
                     <header>
                         <h2 itemprop="title">{{ vacancy.title }}</h2>
                         <time datetime="{{ vacancy.published_at|date:'Y-m-d' }}" itemprop="datePosted">
@@ -49,4 +49,20 @@
     </nav>
     <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
 </footer>
+<style>
+    .vacancy {
+        float: left;
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        box-sizing: border-box;
+    }
+
+    .vacancies:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+</style>
 {% endblock %}

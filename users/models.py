@@ -37,7 +37,6 @@ class UserGroup(models.Model):
     def __str__(self):
         return self.name
 
-<<<<<<< HEAD
 class UserTimezone(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='timezone_info')
     timezone = models.CharField(
@@ -47,11 +46,7 @@ class UserTimezone(models.Model):
     )
     class Meta:
         db_table = 'user_timezone'
-=======
->>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
 
 class UserTimezone(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="timezone_info"
-    )
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="timezone_info")
     timezone = models.CharField(max_length=32, choices=zip(pytz.all_timezones, pytz.all_timezones), default="UTC")

@@ -20,7 +20,7 @@
 
 <div class="main-content">
     <section aria-labelledby="team-heading" itemscope itemtype="http://schema.org/Organization">
-        <div class="employees-grid">
+        <div class="employees-flex" >
             {% for employee in employees %}
             <article class="employee-card" itemscope itemtype="http://schema.org/Person">
                 <header>
@@ -59,7 +59,7 @@
         </div>
     </section>
 
-    <aside aria-labelledby="company-contacts-heading" id="company-contacts">
+    <aside aria-labelledby="company-contacts-heading" id="company-contacts" class='team_mem'>
         <header>
             <h2 id="company-contacts-heading">Company Contacts</h2>
         </header>
@@ -95,4 +95,25 @@
     </nav>
     <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
 </footer>
+<style>
+    @font-face { font-family: 'CustomFont'; src: url('/static/fonts/customfont.woff2') format('woff2'); }
+    * { font-family: 'CustomFont', Arial, sans-serif; }  
+    
+    .employees-flex {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .employee-card {
+        flex: 1 1 300px;
+        max-width: 350px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: center;
+    }
+</style>
 {% endblock %}

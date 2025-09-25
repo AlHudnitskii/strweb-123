@@ -43,25 +43,25 @@
         {% else %}
             <div class="news-container">
                 {% for article in articles %}
-                <details itemscope itemtype="http://schema.org/Article">
-                    <summary>
+                <details itemscope itemtype="http://schema.org/Article" >
+                    <summary class="news_preview">
                         {% if article.image %}
                         <img src="{{ article.image.url }}" alt="{{ article.title }}" itemprop="image" width="300" height="600" style="max-width: 100%; height: auto;">
                         {% endif %}
                         <div>
-                            <h2 itemprop="headline">{{ article.title }}</h2>
+                            <h2 itemprop="headline" class='news_preview' >{{ article.title }}</h2>
                             <time datetime="{{ article.created_at|date:'Y-m-d' }}" itemprop="datePublished">
                                 {{ article.created_at|date:"F d, Y" }}
                             </time>
-                            <p itemprop="description">{{ article.short_info }}</p>
+                            <p itemprop="description" class="news_preview ">{{ article.short_info }}</p>
                         </div>
                     </summary>
                     
-                    <div itemprop="articleBody">
+                    <div class="main_info">
                         {% if article.image %}
                         <img src="{{ article.image.url }}" alt="{{ article.title }}" itemprop="image" width="300" height="600" style="max-width: 100%; height: auto;">
                         {% endif %}
-                        {{ article.content|linebreaks }}
+                        <p>{{ article.content|linebreaks }}<p>
                     </div>
                 </details>
                 {% empty %}
@@ -80,4 +80,17 @@
     </nav>
     <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
 </footer>
+<style>
+    .system-font { font-family: system-ui }
+    nav { font-family: 'Inter', sans-serif; font-weight: 500; }    
+
+    .news_preview {
+       white-space: nowrap;
+        overflow: hidden;
+        padding: 5px;
+        text-overflow: ellipsis; 
+    }
+
+    .main_info { columns: 250px 1; column-gap: 30px; word-break: break-word; }
+</style>
 {% endblock %}

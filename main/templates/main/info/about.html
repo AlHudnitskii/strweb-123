@@ -5,18 +5,21 @@
 
 {% block meta %}
     <meta name="description" content="HeavyShop - supplier of industrial equipment and tools. Company history, details, certificate.">
-    <!-- Устарело-->
     <meta name="keywords" content="HeavyShop, industrial equipment, tools, company, certificate, history">
     
     <meta name="author" content="HeavyShop LLC">
 
     <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 <header>
     <div itemprop="description">
-        <p>
+        <p class = 'main'>
             <strong>HeavyShop</strong> is your trusted supplier of <em>industrial equipment</em> and tools.
         </p>
         
@@ -24,7 +27,7 @@
             Since our foundation, we have been committed to providing high-quality products for 
             construction, manufacturing, and engineering companies.
         </blockquote>
-        <q>Since our foundation, we have been committed to providing high-quality products</q>
+        <q lang="en">Since our foundation, we have been committed to providing high-quality products</q>
         <p>Our mission is to make heavy-duty solutions accessible and reliable for every business.</p>
         
         <pre><code>print("11")</code></pre>
@@ -37,7 +40,6 @@
 <main>
     <section aria-labelledby="company-heading" itemscope itemtype="http://schema.org/Organization">
         <h1 id="company-heading"><span itemprop="name">About <mark>HeavyShop</mark></span></h1>
-        
         <dl>
             <dt>HTML</dt>
             <dd>Язык разметки для создания веб-страниц.</dd>
@@ -47,13 +49,14 @@
         140 10 01<br>
         126 138<br>
         140 3 501</p>
-        
+                
+
         <a href="https://example.com">Go to site</a>
         <a href="music.mp3" download="music.mp3">Download File</a>
         
         <article>
             <img src="{% static 'img/logo.png' %}" alt="HeavyShop Company Logo" itemprop="logo" width="600" 
-                    style="max-width: 100%; height: auto; display: block; margin: 0 auto; ">
+                    style="max-width: 100%; height: auto; display: block; margin: 0 auto;" class="logo_">
 
             <figure>
                 <video controls aria-label="HeavyShop company promotional video" class="responsive-video" muted>
@@ -79,7 +82,7 @@
         <h2 id="history-heading">Company History</h2>
         
         <article>
-            <ul>
+            <ul class='grid-container'>
                 <li><strong>2018:</strong> HeavyShop was founded by a team of engineers and business experts.</li>
                 <li><strong>2019:</strong> First online catalog launched, serving over <mark>500 clients</mark>.</li>
                 <li><strong>2020:</strong> Expanded product range to include international brands.</li>
@@ -95,8 +98,8 @@
         <article>
             <address itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                 <span itemprop="name">HeavyShop LLC</span><br>
-                Address: <span itemprop="streetAddress">45 Industrial Avenue</span>, 
-                <span itemprop="addressLocality">Minsk</span>, 
+                Address: <span itemprop="streetAddress">45 Industrial Avenue</span> 
+                <span itemprop="addressLocality">Minsk</span> 
                 <span itemprop="addressCountry">Belarus</span><br>
                 Phone: <a href="tel:+375295551234" itemprop="telephone">+375 29 555-12-34</a><br>
                 Email: <a href="mailto:info@heavyshop.by" itemprop="email">info@heavyshop.by</a><br>
@@ -105,7 +108,7 @@
         </article>
     </section>
 
-    <section aria-labelledby="certificate-heading">
+    <section aria-labelledby="certificate-heading" class="certificate">
         <h2 id="certificate-heading">Certificate</h2>
         
         <article>
@@ -134,4 +137,71 @@
     </nav>
     <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
 </footer>
+<style>
+    h1, h2, h3, h4, h5, h6 { text-transform: uppercase; }
+    a[href^="https"] { padding-left: 20px; }
+    a[href$=".com"] { padding-right: 20px; }
+    [id = "history-heading"] { color: maroon; }
+    .main { border-width: 1px; border-style: solid; }
+
+    p.main { color: green; }
+    p strong { color: gray; }
+    pre > code { color: fuchsia; }
+
+    a:link { color: darkgreen; }
+    a:visited { color: darkcyan; }
+    a:hover { color: hotpink; cursor: pointer; }
+    a:active { color: aliceblue }
+    a:focus { outline-offset: 2px; }
+
+    li:first-child { color: greenyellow; }
+    li:last-child { color: lightsalmon; }
+    li:nth-child(3) { color: violet; }
+    li:nth-child(even) { color: olivedrab; }
+
+    q:lang(en){ quotes: "« " " »" "‹ " " ›"; }
+    
+    p::first-letter {color : fuchsia; }
+    article > ul > li:before { content: "\20aa "; } 
+    article > ul > li:after { content: "\20ab "; } 
+
+    ::selection { background-color: darkgreen; }
+
+    body { font-family: 'Inter', sans-serif; background: linear-gradient(to right, white, lightcoral); }   
+    
+    pre { width: 1000px; height: 130px; background-color: teal; }
+    @media (max-width: 1000px) { pre { background-color: red; } }
+
+    body, p, h1, h2, h3, h4, h5, h6, span, div, a, li, td, th, caption,
+    input, textarea, select, button, label, figcaption, blockquote, cite {
+        padding: 5px 5px 5px 5px;
+        margin: 0 auto;
+        text-indent : 10px;
+        line-height: 25px;
+        font-variant: normal;
+        letter-spacing: 0.5px; 
+        word-spacing: 2px;   
+        word-wrap: break-word;
+        word-break: normal;
+        font-family: 'Inter', sans-serif;
+        text-align: left;
+        display: block;     
+        position: static; 
+        float: none; 
+    }
+
+    .grid-container { display: grid; grid-gap: 20px 50px; grid-template-columns: auto auto auto; background-color: black; }
+
+    .logo_  { transform: rotate(10deg); }
+    .certificate {
+        border: 20px solid transparent;
+        border-image: linear-gradient(45deg, gold, silver) 1;
+        -webkit-border-image: linear-gradient(45deg, gold, silver) 1;
+        background: linear-gradient(135deg, #f5f5dc 0%, #fffaf0 100%);
+        padding: 40px;
+        position: relative;
+        z-index: 10;
+        font-family: 'Arial', sans-serif;
+    }
+</style>
 {% endblock %}

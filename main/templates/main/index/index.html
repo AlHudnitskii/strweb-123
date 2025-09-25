@@ -4,15 +4,28 @@
 {% block title %}HeavyShop - Industrial Equipment{% endblock title %}
 
 {% block content %}
+<div class="animation-scene">
+    <div class="cloud"></div>
+    <div class="basket"></div>
+    <div class="products-container">
+        {% for product in products|slice:":3" %}
+        <div class="product-item" style="animation-delay: {{ forloop.counter }}s">{{ product.name }}</div>
+        {% endfor %}
+    </div>
+    <div class="house"></div>
+    <div class="lawn"></div>
+    <div class="company-name">HEAVY SHOP</div>
+</div>
+
 <header role="banner">
-    <nav role="navigation" aria-label="Main navigation">
+    <nav role="navigation" aria-label="Main navigation" >
         <a href="/">
             <img src="{% static 'img/logo.png' %}" alt="HeavyShop Logo"  width="200" style="max-width: 100%; height: auto; margin: 0 auto; ">
         </a>
     </nav>
 </header>
-
 <main role="main">
+    <h3 class="shop_name">HEAVY SHOP<h3>
     <section aria-label="Promotional banners">
         <div class="banner-container">
             <img src="{% static 'img/banner1.png' %}" alt="HeavyShop Industrial Equipment" width="300" style="max-width: 100%; height: auto;">
@@ -41,7 +54,7 @@
         </div>
     </section>
 
-    <aside aria-label="Latest news article">
+    <aside aria-label="Latest news article" class="last_article">
         <h2>Latest News</h2>
         {% if last_article %}
         <article itemscope itemtype="http://schema.org/Article">
@@ -50,7 +63,7 @@
             </header>
             <p itemprop="description">{{ last_article.short_info }}</p>
             <footer>
-                <a href="/news/{{ last_article.id }}/">Read Full Article</a>
+                <a href="/news/">Read Full Article</a>
             </footer>
         </article>
         {% else %}
@@ -58,7 +71,7 @@
         {% endif %}
     </aside>
 
-    <section aria-label="Our partners">
+    <section aria-label="Our partners" class="partner">
         <h2>Partner Companies</h2>
         <div class="partners-grid">
             {% for partner in partners %}
@@ -75,6 +88,25 @@
     </section>
 </main>
 
+<div class="preloader-wrapper">
+    <svg class="cart-faded" viewBox="0 0 100 100">
+        <path class="cart-path" d="M10,20 L20,20 L30,70 L80,70 L75,30 L25,30" />
+        <circle class="wheel" cx="35" cy="85" r="8" />
+        <circle class="wheel" cx="70" cy="85" r="8" />
+    </svg>
+
+    <svg class="cart-animated" viewBox="0 0 100 100">
+        <path class="segment segment-1" d="M10,20 L20,20" />
+        <path class="segment segment-2" d="M20,20 L25,30" />
+        <path class="segment segment-3" d="M25,30 L75,30" />
+        <path class="segment segment-4" d="M75,30 L80,70 L30,70" />
+        <path class="segment segment-5" d="M30,70 L20,20" />
+
+        <circle class="segment wheel-1" cx="35" cy="85" r="8" />
+        <circle class="segment wheel-2" cx="70" cy="85" r="8" />
+    </svg>
+</div>
+
 <footer role="contentinfo">
     <p>&copy; 2025 HeavyShop. All rights reserved.</p>
     <nav aria-label="Footer navigation">
@@ -83,4 +115,178 @@
         <a href="/contacts/">Contact Us</a>
     </nav>
 </footer>
+
+<style>
+    .partner {
+        width: 500px;
+        height: 300px; 
+        background-color: #4a90e2; 
+        border-radius: 50%; 
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+    }
+    .shop_name { font-family: 'Arial', sans-serif; letter-spacing: 5px; color : aqua}
+    .last_article { position: relative; top: 20px; left: 0; background-color: hotpink; }
+    .nav {position : fixed; top: 0; width: 100%; background-color: #333;}
+
+    .animation-scene { 
+        margin-top: 100px;    
+        position: relative;
+        width: 100%;
+        height: 80vh;
+        background: linear-gradient(to bottom, #87CEEB 60%, #90EE90 100%);
+        overflow: hidden;
+    }
+
+    .products-container { position: absolute; top: 10%; left: 45%; }
+    .product-item {
+        position: absolute;
+        background: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        animation: productFall 3s ease-in-out forwards;
+        opacity: 0;
+    }
+
+    @keyframes productFall {
+        0% { opacity: 0; transform: translateY(-100px); }
+        20% { opacity: 1; transform: translateY(0); }
+        80% { opacity: 1; transform: translateY(200px); }
+        100% { opacity: 0; transform: translateY(400px); }
+    }
+
+    .cloud {
+        position: absolute;
+        top: 30%;
+        left: -100px;
+        width: 150px;
+        height: 60px;
+        background: white;
+        border-radius: 50px;
+        animation: cloudMove 8s linear infinite;
+    }
+
+    .cloud:before, .cloud:after {
+        content: '';
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+    }
+
+    .cloud:before { width: 80px; height: 80px; top: -40px; left: 20px; }
+    .cloud:after { width: 60px; height: 60px; top: -30px; right: 20px; }
+
+    @keyframes cloudMove {
+        0% { left: -100px; }
+        100% { left: 100%; }
+    }
+
+    .basket {
+        position: absolute;
+        top: -100px;
+        left: 50%;
+        width: 80px;
+        height: 60px;
+        background: #8B4513;
+        border-radius: 10px 10px 0 0;
+        animation: basketFall 4s ease-in-out 2s forwards;
+    }
+
+    .basket:before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: 10px;
+        right: 10px;
+        height: 20px;
+        background: #A0522D;
+        border-radius: 5px;
+    }
+
+    @keyframes basketFall { 
+        0% { top: -100px; transform: translateX(-50%); } 
+        50% { top: 35%; transform: translateX(-50%); }
+        100% { top: 70%; transform: translateX(-50%); }
+    }
+
+    .house {
+        position: absolute;
+        bottom: 20%;
+        right: 20%;
+        width: 100px;
+        height: 80px;
+        background: #FFB6C1;
+    }
+
+    .house:before {
+        content: '';
+        position: absolute;
+        top: -30px;
+        left: -10px;
+        width: 120px;
+        height: 40px;
+        background: #8B0000;
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .lawn {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 20%;
+        background: #32CD32;
+    }
+
+    .company-name {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3rem;
+        font-weight: bold;
+        color: #2F4F4F;
+        opacity: 0;
+        animation: showName 2s ease-in-out 6s forwards;
+    }
+
+    @keyframes showName {
+        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+        100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    :root { --primary-color: #4285F4; --faded-color: #ccc; --animation-duration: 4s; }
+
+    .preloader-wrapper { position: relative; width: 150px; height: 150px; }
+
+    .cart-faded, .cart-animated { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .cart-faded .cart-path, .cart-faded .wheel { stroke: var(--faded-color); fill: none; stroke-width: 5; stroke-linecap: round; }
+
+    .cart-animated .segment {
+        stroke: var(--primary-color);
+        fill: none;
+        stroke-width: 5;
+        stroke-linecap: round;
+        opacity: 0; 
+        animation: pulse var(--animation-duration) infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% { opacity: 0; }
+        10% { opacity: 1; }
+        15% { opacity: 0.5; }
+    }
+
+    .segment-1 { animation-delay: 0s; }
+    .segment-2 { animation-delay: calc(var(--animation-duration) / 8 * 1); }
+    .segment-3 { animation-delay: calc(var(--animation-duration) / 8 * 2); }
+    .segment-4 { animation-delay: calc(var(--animation-duration) / 8 * 3); }
+    .segment-5 { animation-delay: calc(var(--animation-duration) / 8 * 4); }
+    .wheel-1 { animation-delay: calc(var(--animation-duration) / 8 * 5); }
+    .wheel-2 { animation-delay: calc(var(--animation-duration) / 8 * 6); }
+    
+</style>
 {% endblock content %}

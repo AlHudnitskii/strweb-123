@@ -42,7 +42,6 @@ class Product(models.Model):
         ]
 
     def __str__(self):
-<<<<<<< HEAD
         return f'{self.product.name} - {self.image.name}'
 
 class Article(models.Model):
@@ -154,24 +153,3 @@ class Banner(models.Model):
     
     def __str__(self):
         return self.title
-=======
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse("main:product_detail", args=[self.slug])
-
-    def sell_price(self):
-        if self.discount:
-            return round(self.price - self.price * self.discount / 100, 2)
-        return self.price
-
-
-class ProductImage(models.Model):
-    product = models.ForeignKey(
-        Product, related_name="images", on_delete=models.CASCADE
-    )
-    image = models.ImageField(upload_to="products/%Y/%m/%d", blank=True)
-
-    def __str__(self):
-        return f"{self.product.name} - {self.image.name}"
->>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c

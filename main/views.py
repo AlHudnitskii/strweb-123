@@ -2,10 +2,7 @@ import logging
 
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-<<<<<<< HEAD
 from django.shortcuts import render, redirect
-=======
->>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
 from django.db.models import Sum, Count, F, Q
 
 from orders.models import Order
@@ -18,7 +15,6 @@ from cart.forms import CartAddProductForm
 
 logger = logging.getLogger(__name__)
 
-<<<<<<< HEAD
 def home(request):
     products = Product.objects.filter(available=True)[:5]
     last_article = Article.objects.all().order_by('-created_at').first()    
@@ -38,20 +34,6 @@ def popular_list(request):
     return render(request,
             'main/index/index.html',
             {'products' : products})
-=======
-
-def popular_list(request):
-    """Display a list of popular products."""
-
-    popular_products = Product.objects.filter(available=True)[:4]
-    logger.info(
-        f"Displaying popular products: {[product.name for product in popular_products]}"
-    )
-    return render(
-        request, "main/index/index.html", {"products": popular_products}
-    )
-
->>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
 
 def product_detail(request, slug):
     """Display details for a single product."""
@@ -128,7 +110,6 @@ def product_list(request, category_slug=None):
 
 
 def about(request):
-<<<<<<< HEAD
     company = CompanyInfo.objects.first()
     history = company.history.order_by('year') if company else []
     return render(request, 'main/info/about.html', {
@@ -147,27 +128,6 @@ def news(request, article_id=None):
         articles = Article.objects.all().order_by('-created_at')
         print(f"Articles in view: {articles.count()}")  # Отладка
         return render(request, 'main/info/news.html', {'articles': articles})
-=======
-    """Display the 'About Us' page."""
-
-    logger.info("Displaying 'About Us' page.")
-    return render(request, "main/info/about.html")
-
-
-def news(request):
-    """Display the 'News' page."""
-
-    logger.info("Displaying 'News' page.")
-    return render(request, "main/info/news.html")
-
-
-def dict(request):
-    """Display the 'Dictionary' page."""
-
-    logger.info("Displaying 'Dictionary' page.")
-    return render(request, "main/info/dict.html")
-
->>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
 
 def terms(request):
     terms = Term.objects.order_by('-added_at')
@@ -184,7 +144,6 @@ def terms(request):
     })
     
 def contacts(request):
-<<<<<<< HEAD
     employees = Employee.objects.all()
     return render(request, 'main/info/contacts.html', {'employees': employees})
 
@@ -218,33 +177,6 @@ def reviews(request):
         'reviews': reviews,
         'form': form
     })
-=======
-    """Display the 'Contacts' page."""
-
-    logger.info("Displaying 'Contacts' page.")
-    return render(request, "main/info/contacts.html")
-
-
-def vacancies(request):
-    """Display the 'Vacancies' page."""
-
-    logger.info("Displaying 'Vacancies' page.")
-    return render(request, "main/info/vacancies.html")
-
-
-def promocodes(request):
-    """Display the 'Promocodes' page."""
-
-    logger.info("Displaying 'Promocodes' page.")
-    return render(request, "main/info/promocodes.html")
-
-
-def reviews(request):
-    """Display the 'Reviews' page."""
-
-    logger.info("Displaying 'Reviews' page.")
-    return render(request, "main/info/reviews.html")
->>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
 
 def privacy(request):
     logger.info("Displaying 'Privacy Policy' page.")

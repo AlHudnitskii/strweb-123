@@ -41,19 +41,24 @@
             <section aria-labelledby="sorting-heading">
                 <h2 id="sorting-heading" hidden>Sorting and Search</h2>
                 <div class="filter-controls">
-                    <fieldset  class="sorting">
+                    <fieldset class="sorting">
                         <label for="sort_by">Sort by:</label>
                         <select id="sort_by" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                            <option value="{% url 'main:product_list' %}?sort=name" {% if sort_by == 'name' %}selected{% endif %}>Name A-Z</option>
-                            <option value="{% url 'main:product_list' %}?sort=-name" {% if sort_by == '-name' %}selected{% endif %}>Name Z-A</option>
-                            <option value="{% url 'main:product_list' %}?sort=-price" {% if sort_by == '-price' %}selected{% endif %}>Price: High to Low</option>
-                            <option value="{% url 'main:product_list' %}?sort=price" {% if sort_by == 'price' %}selected{% endif %}>Price: Low to High</option>
+                            {% url 'main:product_list_by_category' category.slug as base_url %}
+                            {% if not category %}
+                                {% url 'main:product_list' as base_url %}
+                            {% endif %}
+                            
+                            <option value="{{ base_url }}?sort=name" {% if sort_by == 'name' %}selected{% endif %}>Name A-Z</option>
+                            <option value="{{ base_url }}?sort=-name" {% if sort_by == '-name' %}selected{% endif %}>Name Z-A</option>
+                            <option value="{{ base_url }}?sort=-price" {% if sort_by == '-price' %}selected{% endif %}>Price: High to Low</option>
+                            <option value="{{ base_url }}?sort=price" {% if sort_by == 'price' %}selected{% endif %}>Price: Low to High</option>
                         </select>
                     </fieldset>
                     
                     <div class="searching">
                         <form action="" method="get" role="search">
-                            <input type="text" name="q" placeholder="Search products..." aria-label="Search products">
+                            <input type="text" name="q" placeholder="Search products..." aria-label="Search products" value="{{ request.GET.q }}">
                             <button type="submit">Search</button>
                         </form>
                     </div>
@@ -62,10 +67,10 @@
 
             <section aria-labelledby="products-heading">
                 <h2 id="products-heading" hidden>Product List</h2>
-                <div class="products-grid">
+                <div class='grid-container'>
                     {% for product in products %}
                     <article class="product-card" itemscope itemtype="http://schema.org/Product">
-                        <a href="{{ product.get_absolute_url }}" itemprop="url">
+                        <a href="{% url 'main:product_detail' product.slug %}" itemprop="url">
                             <figure>
                                 <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/noimage.jpg' %}{% endif %}" 
                                      alt="{{ product.name }}" itemprop="image" width="200" height="600" style="max-width: 100%; height: auto;">
@@ -101,28 +106,37 @@
             <nav aria-label="Products pagination">
                 <ul class="pagination">
                     <li>
-                        <a href="{% if products.has_previous %}?page={{ products.previous_page_number }}{% endif %}" 
-                           {% if not products.has_previous %}aria-disabled="true"{% endif %}>
-                            Previous
-                        </a>
+                        {% if products.has_previous %}
+                            <a href="?page={{ products.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">
+                                Previous
+                            </a>
+                        {% else %}
+                            <span aria-disabled="true">Previous</span>
+                        {% endif %}
                     </li>
                     
                     {% for page in products.paginator.page_range %}
-                    {% if page >= products.number|add:-2 and page <= products.number|add:2 %}
-                    <li>
-                        <a href="?page={{ page }}" 
-                           {% if products.number == page %}aria-current="page"{% endif %}>
-                            {{ page }}
-                        </a>
-                    </li>
-                    {% endif %}
+                        {% if page >= products.number|add:-2 and page <= products.number|add:2 %}
+                        <li>
+                            {% if products.number == page %}
+                                <span aria-current="page" class="current-page">{{ page }}</span>
+                            {% else %}
+                                <a href="?page={{ page }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">
+                                    {{ page }}
+                                </a>
+                            {% endif %}
+                        </li>
+                        {% endif %}
                     {% endfor %}
 
                     <li>
-                        <a href="{% if products.has_next %}?page={{ products.next_page_number }}{% endif %}" 
-                           {% if not products.has_next %}aria-disabled="true"{% endif %}>
-                            Next
-                        </a>
+                        {% if products.has_next %}
+                            <a href="?page={{ products.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">
+                                Next
+                            </a>
+                        {% else %}
+                            <span aria-disabled="true">Next</span>
+                        {% endif %}
                     </li>
                 </ul>
             </nav>
@@ -135,8 +149,12 @@
     <nav aria-label="Shop related links">
         <a href="/about/">About Us</a>
         <a href="/support/">Customer Support</a>
-        <a href="/shipping/">Shipping Info</a>
+        <a href="/shipping/">Shopping Info</a>
     </nav>
     <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
 </footer>
+<style>
+    .grid-container { display: grid; grid-gap: 20px 50px; grid-template-columns: auto auto auto; background-color: wheat; }
+</style>
+
 {% endblock content %}
