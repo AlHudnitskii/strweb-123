@@ -192,16 +192,37 @@
 
     .grid-container { display: grid; grid-gap: 20px 50px; grid-template-columns: auto auto auto; background-color: black; }
 
-    .logo_  { transform: rotate(10deg); }
+    .logo_ { transition: transform 1s ease; }
+    .logo_:hover { transform: rotate(360deg); }
+
     .certificate {
         border: 20px solid transparent;
-        border-image: linear-gradient(45deg, gold, silver) 1;
-        -webkit-border-image: linear-gradient(45deg, gold, silver) 1;
-        background: linear-gradient(135deg, #f5f5dc 0%, #fffaf0 100%);
-        padding: 40px;
+        border-image-source: url('{% static "img/banner1.png" %}');
+        -webkit-border-image-source: url('{% static "img/banner1.png" %}'); 
+        -moz-border-image-source: url('{% static "img/banner1.png" %}'); 
+        border-image-slice: 30;
+        border-image-repeat: round;
+        -webkit-border-image-slice: 30; 
+        -webkit-border-image-repeat: round;
+        
+        background: 
+            linear-gradient(135deg, rgba(245, 245, 220, 0.9) 0%, rgba(255, 250, 240, 0.9) 20%),
+            url('{% static "img/noimage.jpg" %}');
         position: relative;
         z-index: 10;
-        font-family: 'Arial', sans-serif;
+        
+        font-family: 'Georgia', 'Times New Roman', serif;
+        font-size: 16px;
+        line-height: 1.6;
+        font-weight: 500;
+        
+        text-align: center;
     }
+
+    .certificate pre, figure, h2 { text-align: center; }
+
+    address { font-family: 'Courier New', monospace; background: #f8f9fa;  border-left: 4px solid #007bff; }
+    .responsive-video, .responsive-iframe { width: 100%; max-width: 800px; height: 450px; }
+    audio { width: 100%; max-width: 400px; margin: 10px 0; }
 </style>
 {% endblock %}

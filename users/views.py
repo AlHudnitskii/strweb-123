@@ -105,7 +105,7 @@ def profile(request):
 
     else:
         profile_form = ProfileForm(instance=request.user)
-        timezone_form = UserTimezoneForm(instance=request.user.timezone_info)
+        #timezone_form = UserTimezoneForm(instance=request.user.timezone_info)
         note_form = UserNoteForm()
         group_form = UserGroupForm()
 
@@ -132,7 +132,7 @@ def profile(request):
             "orders": orders,
             "notes": notes,
             "groups": groups,
-            "timezone_form": timezone_form,
+            #"timezone_form": timezone_form,
             "note_form": note_form,
             "group_form": group_form,
         },

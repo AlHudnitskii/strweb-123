@@ -42,7 +42,7 @@ class Product(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.product.name} - {self.image.name}'
+        return f'{self.name}'
 
 class Article(models.Model):
     title = models.CharField(max_length=200)

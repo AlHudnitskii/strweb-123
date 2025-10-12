@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-<header>
+<header class ="table-title">
     <h1 itemprop="name">{{ product.name }}</h1>
 </header>
 
@@ -61,6 +61,12 @@
         <th>Availability</th>
         <td colspan="2">In Stock</td>
     </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
 </table>
 
 <footer role="contentinfo">
@@ -74,7 +80,7 @@
     td:last-of-type { color: lightsalmon; }
     tr:nth-child(even) { color: olivedrab; }
 
-    .table-title { text-align: center; margin-bottom: 20px; }
+    .table-title { text-align: center; margin-bottom: 20px; color :aqua;}
     .product-table { border-collapse: collapse; width: 500px; margin: 0 auto; }
     .product-table th, .product-table td { border: 1px solid #ddd; padding: 10px; text-align: center; vertical-align: middle; }
     .product-table td:empty { background: wheat; }

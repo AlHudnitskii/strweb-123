@@ -30,14 +30,13 @@
 {% endif %}
 
 <style>
-    body { font: menu; }
-    button, input, textarea, select { font: caption; }
-    .review { font: message-box; margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
-    .review strong { font: small-caption; }
-    .review time { font: status-bar; }
-    form p { font: -webkit-control; }
-    button { font: button; }
-    button:hover { font: icon; }
-    a { font: -webkit-small-control; }
+    input[type="text"], textarea, select, button {
+        font-family: Arial, sans-serif;      
+        color: #1976d2;
+        border-radius: 6px;
+        border: 1px solid #cfd2d6;
+    }
+
+    input[type="text"]:focus, textarea:focus, select:focus { border-color: #5b9cf7; }
 </style>
 {% endblock %}

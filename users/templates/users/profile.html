@@ -5,16 +5,11 @@
 {% block title %}Profile{% endblock title %}
 
 {% block content %}
-<<<<<<< HEAD
 <main role="main" aria-label="User Profile" class="container">
-=======
-<div class="container">
->>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
     <h2 class="mb-3">Your Profile</h2>
 
     <div class="row">
         <div class="col-md-4">
-<<<<<<< HEAD
             <section class="bg-white p-3 mb-3 rounded shadow-sm">
                 <h5 class="mb-2">Account Details</h5>
                 
@@ -26,23 +21,6 @@
                     {% endif %}
                 </div>
                 
-=======
-            <div class="bg-white p-3 rounded mb-3">
-                <div class="d-flex align-items-center mb-2">
-                    <div class="profile-avatar me-2">
-                        {% if user.image %}
-                            <img src="{{ user.image.url }}" alt="Avatar" class="img-fluid rounded-circle" width="50" height="50">
-                        {% else %}
-                            <img src="{% static 'img/noimage.jpg' %}" alt="Avatar" class="img-fluid rounded-circle" width="50" height="50">
-                        {% endif %}
-                    </div>
-                    <div>
-                        <h6 class="mb-0">{{ user.username }}</h6>
-                        <small class="text-muted">{{ user.email }}</small>
-                    </div>
-                </div>
-
->>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <label for="id_image" class="form-label small text-muted">Avatar</label>
@@ -62,21 +40,16 @@
 
                     <button type="submit" class="btn btn-primary btn-sm w-100 mb-2" name="profile_submit">Save</button>
                 </form>
-<<<<<<< HEAD
                 
                 <hr class="my-3">
                 
-                <h6 class="mb-2">Timezone</h6>
-=======
-
->>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
+                <!-- <h6 class="mb-2">Timezone</h6>
                 <form method="post">
                     {% csrf_token %}
                     <label class="form-label small text-muted">Timezone</label>
                     {{ timezone_form }}
                     <button type="submit" class="btn btn-secondary btn-sm w-100" name="timezone_submit">Update Timezone</button>
-                </form>
-<<<<<<< HEAD
+                </form> -->
                 
                 <hr class="my-3">
                 
@@ -90,22 +63,11 @@
             <section class="bg-white p-3 mb-3 rounded shadow-sm">
                 <h5 class="mb-3">Your Orders</h5>
                 
-=======
-
-                <hr class="my-2">
-                <a class="btn btn-danger btn-sm w-100" href="{% url 'user:logout' %}">Logout</a>
-            </div>
-        </div>
-
-        <div class="col-md-8">
-            <div class="bg-white p-3 rounded mb-3">
-                <h6 class="mb-2">Your Orders</h6>
->>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
                 {% if orders %}
                     <ul class="list-unstyled">
                         {% for order in orders %}
                             <li class="mb-2 border-bottom pb-2">
-                                <small class="text-muted">Order № {{ order.id }} - {{ order.created|timezone:user.timezone_info.timezone }}</small>
+                                <small class="text-muted">Order № {{ order.id }} - {{ order.created}}</small>
                                 {% for item in order.items.all %}
                                     <p class="mb-0 small">{{ item.product.name }} (Qty: {{ item.quantity }}, ${{ item.price }})</p>
                                 {% endfor %}
@@ -115,20 +77,12 @@
                 {% else %}
                     <p class="text-muted small">No orders yet.</p>
                 {% endif %}
-<<<<<<< HEAD
             </section>
             
             <section class="bg-white p-3 mb-3 rounded shadow-sm">
                 <h5 class="mb-3">Your Notes</h5>
                 
                 <form method="post" class="mb-3">
-=======
-            </div>
-
-            <div class="bg-white p-3 rounded mb-3">
-                <h6 class="mb-2">Your Notes</h6>
-                <form method="post" class="mb-2">
->>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
                     {% csrf_token %}
                     <label class="form-label small text-muted">New Note</label>
                     {{ note_form }}
@@ -147,20 +101,12 @@
                 {% else %}
                     <p class="text-muted small">No notes yet.</p>
                 {% endif %}
-<<<<<<< HEAD
             </section>
             
             <section class="bg-white p-3 mb-3 rounded shadow-sm">
                 <h5 class="mb-3">Your Groups</h5>
                 
                 <form method="post" class="mb-3">
-=======
-            </div>
-
-            <div class="bg-white p-3 rounded mb-3">
-                <h6 class="mb-2">Your Groups</h6>
-                <form method="post" class="mb-2">
->>>>>>> 253d1c02d106f490a99efe7e4293e81c275e3c5c
                     {% csrf_token %}
                     <label class="form-label small text-muted">New Group</label>
                     {{ group_form }}

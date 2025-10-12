@@ -15,7 +15,7 @@
     <h1 id="promocodes-heading">Promo Codes & Coupons</h1>
 </header>
 
-<main role="main">
+<main role="main" class="promo-list">
     <article aria-labelledby="promocodes-heading">
         <section aria-labelledby="active-promocodes-heading">
             <h2 id="active-promocodes-heading">Active Promo Codes</h2>
@@ -54,14 +54,15 @@
 
 <footer role="contentinfo">
     <nav aria-label="Related discount pages">
-        <a href="/specials/">Special Offers</a>
-        <a href="/sale/">Sale Items</a>
-        <a href="/contacts/">Contact for Support</a>
+                <a href="/privacy/">Privacy Policy</a>
+        <a href="/terms/">Terms of Service</a>
+        <a href="/contacts/">Contact Us</a>
+
     </nav>
     <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
 </footer>
 <style>
-    ul { list-style: disc; margin-left: 20px; }
-    li { margin: 10px 0; }
+    .promo-list ul { list-style: none; padding: 0; margin: 0;}
+    .promo-list li { display: flex; background: aqua; }
 </style>
 {% endblock %}

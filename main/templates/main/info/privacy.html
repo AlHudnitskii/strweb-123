@@ -11,11 +11,11 @@
 {% endblock %}
 
 {% block content %}
-<header>
+<header class="privacy-policy">
     <h1 id="privacy-heading" itemprop="name">Privacy Policy</h1>
 </header>
 
-<main role="main">
+<main role="main" class="privacy-policy">
     <article aria-labelledby="privacy-heading" itemscope itemtype="https://schema.org/PrivacyPolicy">
         <section aria-labelledby="introduction-heading">
             <h2 id="introduction-heading" hidden>Introduction</h2>
@@ -72,31 +72,27 @@
     </article>
 </main>
 
-<footer role="contentinfo">
+<footer role="contentinfo" class="privacy-policy">
     <nav aria-label="Policy related links">
+        <a href="/privacy/">Privacy Policy</a>
         <a href="/terms/">Terms of Service</a>
-        <a href="/cookies/">Cookie Policy</a>
         <a href="/contacts/">Contact Us</a>
+
     </nav>
     <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
 </footer>
 <style>
-    body, p, h1, h2, h3, h4, h5, h6, span, div, a, li, td, th, caption,
-    input, textarea, select, button, label, figcaption, blockquote, cite {
-        padding: 5px 5px 5px 5px;
-        margin: 0 auto;
-        text-indent : 10px;
-        line-height: 25px;
-        font-variant: normal;
-        letter-spacing: 0.5px; 
-        word-spacing: 2px;   
-        word-wrap: break-word;
-        word-break: normal;
-        font-family: 'Inter', sans-serif;
-        text-align: left;
-        display: block;     
-        position: static; 
-        float: none; 
-    }
+    .privacy-policy {
+    font-family: 'Roboto Slab', serif;
+    background: linear-gradient(135deg, #e3f2fd 60%, #f7fafd 100%);
+    color: #1976d2;
+    border-radius: 14px;
+    padding: 28px 32px;
+    box-shadow: 0 4px 24px rgba(25, 118, 210, 0.07);
+    margin: 32px auto;
+    max-width: 700px;
+    line-height: 1.7;
+    font-size: 1.08rem;
+}
 </style>
 {% endblock %}

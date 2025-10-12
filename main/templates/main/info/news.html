@@ -43,7 +43,7 @@
         {% else %}
             <div class="news-container">
                 {% for article in articles %}
-                <details itemscope itemtype="http://schema.org/Article" >
+                <details itemscope itemtype="http://schema.org/Article"  class="article-columns">
                     <summary class="news_preview">
                         {% if article.image %}
                         <img src="{{ article.image.url }}" alt="{{ article.title }}" itemprop="image" width="300" height="600" style="max-width: 100%; height: auto;">
@@ -74,9 +74,9 @@
 
 <footer role="contentinfo">
     <nav aria-label="News related links">
-        <a href="/about/">About Us</a>
-        <a href="/contacts/">Contact</a>
-        <a href="/terms/">Terms</a>
+        <a href="/privacy/">Privacy Policy</a>
+        <a href="/terms/">Terms of Service</a>
+        <a href="/contacts/">Contact Us</a>
     </nav>
     <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
 </footer>
@@ -85,12 +85,12 @@
     nav { font-family: 'Inter', sans-serif; font-weight: 500; }    
 
     .news_preview {
-       white-space: nowrap;
+        white-space: nowrap;
         overflow: hidden;
         padding: 5px;
         text-overflow: ellipsis; 
     }
 
-    .main_info { columns: 250px 1; column-gap: 30px; word-break: break-word; }
+    .main_info { columns: 100px 3; column-gap: 30px; word-break: break-word; }
 </style>
 {% endblock %}

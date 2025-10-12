@@ -2,7 +2,12 @@
 {% load static %}
 
 {% block title %}HeavyShop - Industrial Equipment{% endblock title %}
-
+{% block meta %}
+    <meta name="description" content="HeavyShop - your trusted supplier of industrial equipment and tools. Explore our products, news, and partners.">
+    <meta name="keywords" content="HeavyShop, industrial equipment, tools, products, news, partners">
+    <meta name="author" content="HeavyShop LLC">
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
+{% endblock %}
 {% block content %}
 <div class="animation-scene">
     <div class="cloud"></div>
@@ -88,31 +93,50 @@
     </section>
 </main>
 
-<div class="preloader-wrapper">
-    <svg class="cart-faded" viewBox="0 0 100 100">
-        <path class="cart-path" d="M10,20 L20,20 L30,70 L80,70 L75,30 L25,30" />
-        <circle class="wheel" cx="35" cy="85" r="8" />
-        <circle class="wheel" cx="70" cy="85" r="8" />
-    </svg>
+<div class="preloader-cart">
+  <svg width="240" height="180" viewBox="0 0 240 180" fill="none">
 
-    <svg class="cart-animated" viewBox="0 0 100 100">
-        <path class="segment segment-1" d="M10,20 L20,20" />
-        <path class="segment segment-2" d="M20,20 L25,30" />
-        <path class="segment segment-3" d="M25,30 L75,30" />
-        <path class="segment segment-4" d="M75,30 L80,70 L30,70" />
-        <path class="segment segment-5" d="M30,70 L20,20" />
+    <circle class="cart-anim wheel-left" cx="85" cy="135" r="15" fill="none" stroke="#1976d2" stroke-width="5" opacity="0.18" filter="url(#wheel-shadow)"/>
+    <circle class="cart-anim wheel-right" cx="155" cy="135" r="15" fill="none" stroke="#5b9cf7" stroke-width="5" opacity="0.18" filter="url(#wheel-shadow)"/>
 
-        <circle class="segment wheel-1" cx="35" cy="85" r="8" />
-        <circle class="segment wheel-2" cx="70" cy="85" r="8" />
-    </svg>
+    <polyline class="cart-anim body"
+      points="60,50 190,50 175,100 60,100 70,115 175,115"
+      stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.18" filter="url(#body-shadow)"/>
+
+    <polyline class="cart-anim handle"
+      points="45,35 60,40 60,50"
+      stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.18" filter="url(#handle-shadow)"/>
+
+    <g class="cart-anim all">
+      <circle cx="85" cy="135" r="15" fill="none" stroke="#1976d2" stroke-width="5"/>
+      <circle cx="155" cy="135" r="15" fill="none" stroke="#5b9cf7" stroke-width="5"/>
+      <polyline points="60,50 190,50 175,100 60,100 70,115 175,115"
+        stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="45,35 60,40 60,50"
+        stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <defs>
+      <filter id="wheel-shadow" x="-10" y="-10" width="40" height="40">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#b0b8c1" flood-opacity="0.25"/>
+      </filter>
+      <filter id="body-shadow" x="0" y="0" width="240" height="180">
+        <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#b0b8c1" flood-opacity="0.18"/>
+      </filter>
+      <filter id="handle-shadow" x="0" y="0" width="240" height="180">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#b0b8c1" flood-opacity="0.18"/>
+      </filter>
+    </defs>
+  </svg>
 </div>
+
 
 <footer role="contentinfo">
     <p>&copy; 2025 HeavyShop. All rights reserved.</p>
     <nav aria-label="Footer navigation">
-        <a href="/privacy/">Privacy Policy</a>
+         <a href="/privacy/">Privacy Policy</a>
         <a href="/terms/">Terms of Service</a>
         <a href="/contacts/">Contact Us</a>
+
     </nav>
 </footer>
 
@@ -121,12 +145,15 @@
         width: 500px;
         height: 300px; 
         background-color: #4a90e2; 
-        border-radius: 50%; 
+        border-radius: 90%; 
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
         display: flex;
         align-items: center; 
         justify-content: center;
+        position: relative;
+
     }
+
     .shop_name { font-family: 'Arial', sans-serif; letter-spacing: 5px; color : aqua}
     .last_article { position: relative; top: 20px; left: 0; background-color: hotpink; }
     .nav {position : fixed; top: 0; width: 100%; background-color: #333;}
@@ -258,35 +285,55 @@
         100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     }
 
-    :root { --primary-color: #4285F4; --faded-color: #ccc; --animation-duration: 4s; }
-
-    .preloader-wrapper { position: relative; width: 150px; height: 150px; }
-
-    .cart-faded, .cart-animated { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-    .cart-faded .cart-path, .cart-faded .wheel { stroke: var(--faded-color); fill: none; stroke-width: 5; stroke-linecap: round; }
-
-    .cart-animated .segment {
-        stroke: var(--primary-color);
-        fill: none;
-        stroke-width: 5;
-        stroke-linecap: round;
-        opacity: 0; 
-        animation: pulse var(--animation-duration) infinite;
+    .preloader-cart {
+        width: 240px;
+        margin: 0 auto;
+        background: #eceef1;
+        border-radius: 24px;
+        padding: 18px 0 0 0;
+        box-sizing: border-box;
+        text-align: center;
+        border: 1px solid #cfd2d6;
+        box-shadow: 0 4px 24px rgba(25, 118, 210, 0.10);
+    }
+    .cart-anim {
+        opacity: 0.18;
+        transition: opacity 0.3s;
+    }
+    .cart-anim.handle {
+        animation: cart-blink 2.2s infinite;
+        animation-delay: 0s;
+    }
+    .cart-anim.body {
+        animation: cart-blink 2.2s infinite;
+        animation-delay: 0.3s;
+    }
+    .cart-anim.wheel-left {
+        animation: cart-blink 2.2s infinite;
+        animation-delay: 0.6s;
+    }
+    .cart-anim.wheel-right {
+        animation: cart-blink 2.2s infinite;
+        animation-delay: 0.9s;
+    }
+    .cart-anim.all {
+        opacity: 0;
+        animation: cart-blink-all 2.2s infinite;
+        animation-delay: 1.2s;
+    }
+    .cart-anim.all polyline,
+    .cart-anim.all circle {
+        opacity: 1;
     }
 
-    @keyframes pulse {
-        0%, 100% { opacity: 0; }
-        10% { opacity: 1; }
-        15% { opacity: 0.5; }
+    @keyframes cart-blink {
+        0%, 100% { opacity: 0.18; }
+        60% { opacity: 1; }
     }
-
-    .segment-1 { animation-delay: 0s; }
-    .segment-2 { animation-delay: calc(var(--animation-duration) / 8 * 1); }
-    .segment-3 { animation-delay: calc(var(--animation-duration) / 8 * 2); }
-    .segment-4 { animation-delay: calc(var(--animation-duration) / 8 * 3); }
-    .segment-5 { animation-delay: calc(var(--animation-duration) / 8 * 4); }
-    .wheel-1 { animation-delay: calc(var(--animation-duration) / 8 * 5); }
-    .wheel-2 { animation-delay: calc(var(--animation-duration) / 8 * 6); }
-    
+    @keyframes cart-blink-all {
+        0%, 80% { opacity: 0; }
+        90% { opacity: 0.5; }
+        100% { opacity: 0; }
+    }
 </style>
 {% endblock content %}

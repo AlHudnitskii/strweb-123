@@ -12,77 +12,49 @@
 
 {% block content %}
 <header>
-    <h1 id="dictionary-heading">Dictionary of Terms & FAQ</h1>
+    <h1>Dictionary of Terms & FAQ</h1>
 </header>
 
-<main role="main">
-    <article aria-labelledby="dictionary-heading">
-
-        {% if selected_term %}
-        <section aria-labelledby="term-detail-heading">
-            <h2 id="term-detail-heading" hidden>Term Detail</h2>
-            <article itemscope itemtype="https://schema.org/DefinedTerm">
-                <header>
-                    <h2 itemprop="name">{{ selected_term.question }}</h2>
-                    <p><small>Added: <time datetime="{{ selected_term.added_at|date:'Y-m-d' }}">{{ selected_term.added_at|date:"d.m.Y" }}</time></small></p>
-                </header>
-                <div itemprop="description">
-                    {{ selected_term.answer|linebreaks }}
-                </div>
-                <footer>
-                    <p><a href="{% url 'terms' %}">Back to dictionary</a></p>
-                </footer>
-            </article>
-        </section>
-        {% else %}
-        <section aria-labelledby="terms-list-heading">
-            <h2 id="terms-list-heading">Terms</h2>
-            <ul>
+<main>
+    {% if selected_term %}
+        <article>
+            <h2>{{ selected_term.question }}</h2>
+            <p><small>Added: {{ selected_term.added_at|date:"d.m.Y" }}</small></p>
+            <div>
+                {{ selected_term.answer|linebreaks }}
+            </div>
+            <p><a href="{% url 'terms' %}">← Back to dictionary</a></p>
+        </article>
+    {% else %}
+        <section>
+            <h2>Terms</h2>
+            <div>
                 {% for term in terms %}
-                <details itemscope itemtype="https://schema.org/DefinedTerm">
-                        <summary>
-                            <strong itemprop="name">{{ term.question }}</strong>
-                            <small>(Added: <time datetime="{{ term.added_at|date:'Y-m-d' }}">{{ term.added_at|date:"d.m.Y" }}</time>)</small>
-                        </summary>
-                        <div itemprop="description">
-                            {{ term.answer|linebreaks }}
-                        </div>
-                    </details>
+                <details>
+                    <summary>
+                        <strong>{{ term.question }}</strong>
+                        <small>({{ term.added_at|date:"d.m.Y" }})</small>
+                    </summary>
+                    <div>
+                        {{ term.answer|linebreaks }}
+                    </div>
+                </details>
                 {% empty %}
-                <li>No terms found.</li>
+                <p>No terms found.</p>
                 {% endfor %}
-            </ul>
+            </div>
         </section>
-        {% endif %}
-    </article>
+    {% endif %}
 </main>
 
-<footer role="contentinfo">
-    <nav aria-label="Dictionary related links">
-        <a href="/support/">Support Center</a>
-        <a href="/guides/">User Guides</a>
-        <a href="/contacts/">Contact for Help</a>
-    </nav>
-    <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
-</footer>
-
 <style>
-    body, p, h1, h2, h3, h4, h5, h6, span, div, a, li, td, th, caption,
-    input, textarea, select, button, label, figcaption, blockquote, cite {
-        padding: 5px 5px 5px 5px;
-        margin: 0 auto;
-        text-indent : 10px;
-        line-height: 25px;
-        font-variant: normal;
-        letter-spacing: 0.5px; 
-        word-spacing: 2px;   
-        word-wrap: break-word;
-        word-break: normal;
-        font-family: 'Inter', sans-serif;
-        text-align: left;
-        display: block;     
-        position: static; 
-        float: none; 
-    }
+    details { border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; padding: 10px; }
+    
+    summary { cursor: pointer; font-weight: bold; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "▼"; float: right; transition: transform 0.3s; }
+
+    details[open] summary::after { transform: rotate(180deg); }
+    details[open] { background: #f9f9f9; }
 </style>
 {% endblock %}

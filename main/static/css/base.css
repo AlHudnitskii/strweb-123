@@ -1,0 +1,12 @@
+@charset "windows-1251";
+
+body, p, h1, h2, h3, h4, h5, h6, span, div, a, li, td, th, caption,
+input, textarea, select, button, label, figcaption, blockquote, cite 
+{
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+button, a, input[type="submit"], input[type="button"] { cursor: help; }
