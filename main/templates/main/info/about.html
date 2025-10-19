@@ -162,6 +162,7 @@
     q:lang(en){ quotes: "« " " »" "‹ " " ›"; }
     
     p::first-letter {color : fuchsia; }
+    ul { list-style-type: none; padding: 0; }
     article > ul > li:before { content: "\20aa "; } 
     article > ul > li:after { content: "\20ab "; } 
 
@@ -173,22 +174,32 @@
     @media (max-width: 1000px) { pre { background-color: red; } }
 
     body, p, h1, h2, h3, h4, h5, h6, span, div, a, li, td, th, caption,
-    input, textarea, select, button, label, figcaption, blockquote, cite {
-        padding: 5px 5px 5px 5px;
-        margin: 0 auto;
-        text-indent : 10px;
-        line-height: 25px;
-        font-variant: normal;
-        letter-spacing: 0.5px; 
-        word-spacing: 2px;   
-        word-wrap: break-word;
-        word-break: normal;
-        font-family: 'Inter', sans-serif;
-        text-align: left;
-        display: block;     
-        position: static; 
-        float: none; 
-    }
+input, textarea, select, button, label, figcaption, blockquote, cite {
+    padding: 5px 5px 5px 5px;
+    margin: 0 auto;
+    
+    text-transform: uppercase;
+
+    text-indent: 10px;
+    
+    line-height: 1.6;
+
+    font-variant: normal;
+    
+    letter-spacing: 0.5px; 
+    word-spacing: 2px;   
+    
+    word-wrap: break-word;
+    word-break: normal;
+    
+    font-family: 'Georgia', 'Times New Roman', serif;
+    text-align: left;
+    display: block;     
+    position: static; 
+    float: none;
+
+    background-color: #f8f9fa;
+}
 
     .grid-container { display: grid; grid-gap: 20px 50px; grid-template-columns: auto auto auto; background-color: black; }
 
@@ -198,12 +209,12 @@
     .certificate {
         border: 20px solid transparent;
         border-image-source: url('{% static "img/banner1.png" %}');
-        -webkit-border-image-source: url('{% static "img/banner1.png" %}'); 
-        -moz-border-image-source: url('{% static "img/banner1.png" %}'); 
+        -o-border-image-source: url('{% static "img/banner1.png" %}'); 
+        -o-border-image-source: url('{% static "img/banner1.png" %}'); 
         border-image-slice: 30;
         border-image-repeat: round;
-        -webkit-border-image-slice: 30; 
-        -webkit-border-image-repeat: round;
+        -o-border-image-slice: 30; 
+        -o-border-image-repeat: round;
         
         background: 
             linear-gradient(135deg, rgba(245, 245, 220, 0.9) 0%, rgba(255, 250, 240, 0.9) 20%),

@@ -11,11 +11,11 @@
 {% endblock %}
 
 {% block content %}
-<header class ="table-title">
-    <h1 itemprop="name">{{ product.name }}</h1>
-</header>
 
 <table class="product-table">
+    <caption class ="table-title">
+    <h1 itemprop="name">{{ product.name }}</h1>
+</caption>
     <tr>
         <th colspan="2">Product Image</th>
         <th colspan="3">Product Information</th>
@@ -80,12 +80,44 @@
     td:last-of-type { color: lightsalmon; }
     tr:nth-child(even) { color: olivedrab; }
 
-    .table-title { text-align: center; margin-bottom: 20px; color :aqua;}
+    .table-title { text-align: center; margin: 10px 0px 10px 0px ; color :aqua; }
     .product-table { border-collapse: collapse; width: 500px; margin: 0 auto; }
     .product-table th, .product-table td { border: 1px solid #ddd; padding: 10px; text-align: center; vertical-align: middle; }
     .product-table td:empty { background: wheat; }
     .product-table img { max-width: 500px; height: auto; }
-
-
 </style>
+<script>
+    function addParallaxEffect() {
+        const cards = document.querySelectorAll('.product-table');
+            
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                    
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                    
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                    
+                card.style.transform = `
+                    translateY(-15px) 
+                    scale(1.02)
+                    perspective(1000px)
+                    rotateX(${rotateX}deg)
+                    rotateY(${rotateY}deg)
+                `;
+            });
+                
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        addParallaxEffect();
+    });
+</script>
 {% endblock content %}

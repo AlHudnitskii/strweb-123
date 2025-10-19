@@ -4,6 +4,19 @@
 {% block title %}Reviews | HeavyShop{% endblock %}
 
 {% block content %}
+<div class="container">
+    <h2>Age Verification</h2>
+    
+    <div class="form-group">
+        <label for="birthdate">Enter your birth date:</label>
+        <input type="date" id="birthdate" required>
+    </div>
+
+    <button onclick="checkAge()">Verify Age</button>
+
+    <div id="result" class="result"></div>
+</div>
+
 <h1>Customer Reviews</h1>
 
 <div class="reviews">
@@ -19,15 +32,11 @@
     {% endfor %}
 </div>
 
-{% if user.is_authenticated %}
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Send Review</button>
+    <button type="submit">Submit Review</button>
 </form>
-{% else %}
-<p><a href="{% url 'login' %}">Log in to add a review</a></p>
-{% endif %}
 
 <style>
     input[type="text"], textarea, select, button {
@@ -37,6 +46,97 @@
         border: 1px solid #cfd2d6;
     }
 
-    input[type="text"]:focus, textarea:focus, select:focus { border-color: #5b9cf7; }
+    input[type="text"]:focus, textarea:focus, select:focus { 
+        border-color: #5b9cf7; 
+    }
+
+    .container { 
+        text-align: center; 
+        color: #333; 
+        margin-bottom: 30px; 
+    }
 </style>
+
+<script>
+    function checkAge() {
+        const birthdateInput = document.getElementById('birthdate');
+        const resultDiv = document.getElementById('result');
+        
+        if (!birthdateInput.value) {
+            alert('Please enter your birth date');
+            return;
+        }
+
+        const birthdate = new Date(birthdateInput.value);
+        const today = new Date();
+        
+        let age = today.getFullYear() - birthdate.getFullYear();
+        const monthDiff = today.getMonth() - birthdate.getMonth();
+        
+        if (age > 150 || age < 0) { 
+            alert('Please enter a valid birth date');
+            return;
+        } 
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
+            age--;
+        }
+
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dayOfWeek = daysOfWeek[birthdate.getDay()];
+
+        const formattedDate = birthdate.toLocaleDateString('en-US', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+
+        const isAdult = age >= 18;
+
+        if (isAdult) {
+            resultDiv.className = 'result adult show';
+            resultDiv.innerHTML = `
+                <h3>Access Granted</h3>
+                <div class="info-item">
+                    <span class="info-label">Your age:</span>
+                    <span>${age} years</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Birth date:</span>
+                    <span>${formattedDate}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Day of week:</span>
+                    <span>${dayOfWeek}</span>
+                </div>
+                <p style="margin-top: 15px;">You are an adult. Welcome to our rewiews! Don't tell your mum)</p>
+            `;
+        } else {
+            resultDiv.className = 'result minor show';
+            resultDiv.innerHTML = `
+                <h3>Parental Consent Required</h3>
+                <div class="info-item">
+                    <span class="info-label">Your age:</span>
+                    <span>${age} years</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Birth date:</span>
+                    <span>${formattedDate}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Day of week:</span>
+                    <span>${dayOfWeek}</span>
+                </div>
+                <p style="margin-top: 15px;">
+                    <strong>Attention!</strong> You are a minor. 
+                    Parental or legal guardian consent is required to use this website.
+                </p>
+            `;
+            
+            alert(`⚠️ You are a minor (${age} years). Parental consent is required to use this website!`);
+        }
+    }
+
+    document.getElementById('birthdate').max = new Date().toISOString().split('T')[0];
+</script>
 {% endblock %}

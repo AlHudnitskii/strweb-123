@@ -95,17 +95,16 @@
 
 <div class="preloader-cart">
   <svg width="240" height="180" viewBox="0 0 240 180" fill="none">
-
-    <circle class="cart-anim wheel-left" cx="85" cy="135" r="15" fill="none" stroke="#1976d2" stroke-width="5" opacity="0.18" filter="url(#wheel-shadow)"/>
-    <circle class="cart-anim wheel-right" cx="155" cy="135" r="15" fill="none" stroke="#5b9cf7" stroke-width="5" opacity="0.18" filter="url(#wheel-shadow)"/>
+    <circle class="cart-anim wheel-left" cx="85" cy="135" r="15" fill="none" stroke="#1976d2" stroke-width="5" opacity="0.18"/>
+    <circle class="cart-anim wheel-right" cx="155" cy="135" r="15" fill="none" stroke="#5b9cf7" stroke-width="5" opacity="0.18"/>
 
     <polyline class="cart-anim body"
       points="60,50 190,50 175,100 60,100 70,115 175,115"
-      stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.18" filter="url(#body-shadow)"/>
+      stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.18"/>
 
     <polyline class="cart-anim handle"
       points="45,35 60,40 60,50"
-      stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.18" filter="url(#handle-shadow)"/>
+      stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.18"/>
 
     <g class="cart-anim all">
       <circle cx="85" cy="135" r="15" fill="none" stroke="#1976d2" stroke-width="5"/>
@@ -115,20 +114,8 @@
       <polyline points="45,35 60,40 60,50"
         stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
-    <defs>
-      <filter id="wheel-shadow" x="-10" y="-10" width="40" height="40">
-        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#b0b8c1" flood-opacity="0.25"/>
-      </filter>
-      <filter id="body-shadow" x="0" y="0" width="240" height="180">
-        <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#b0b8c1" flood-opacity="0.18"/>
-      </filter>
-      <filter id="handle-shadow" x="0" y="0" width="240" height="180">
-        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#b0b8c1" flood-opacity="0.18"/>
-      </filter>
-    </defs>
   </svg>
 </div>
-
 
 <footer role="contentinfo">
     <p>&copy; 2025 HeavyShop. All rights reserved.</p>
@@ -151,10 +138,9 @@
         align-items: center; 
         justify-content: center;
         position: relative;
-
     }
 
-    .shop_name { font-family: 'Arial', sans-serif; letter-spacing: 5px; color : aqua}
+    .shop_name { font-family: 'Arial', sans-serif; letter-spacing: 5px; color : aqua; font-kerning: auto; }
     .last_article { position: relative; top: 20px; left: 0; background-color: hotpink; }
     .nav {position : fixed; top: 0; width: 100%; background-color: #333;}
 
@@ -233,11 +219,11 @@
         border-radius: 5px;
     }
 
-    @keyframes basketFall { 
-        0% { top: -100px; transform: translateX(-50%); } 
-        50% { top: 35%; transform: translateX(-50%); }
-        100% { top: 70%; transform: translateX(-50%); }
-    }
+        @keyframes basketFall { 
+            0% { top: -100px; transform: translateX(-50%); } 
+            50% { top: 35%; transform: translateX(-50%); }
+            100% { top: 70%; transform: translateX(-50%); }
+        }
 
     .house {
         position: absolute;
@@ -327,7 +313,7 @@
     }
 
     @keyframes cart-blink {
-        0%, 100% { opacity: 0.18; }
+        0%, 100% { opacity: 0.20; }
         60% { opacity: 1; }
     }
     @keyframes cart-blink-all {

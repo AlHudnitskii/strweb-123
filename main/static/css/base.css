@@ -1,4 +1,5 @@
 @charset "windows-1251";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 body, p, h1, h2, h3, h4, h5, h6, span, div, a, li, td, th, caption,
 input, textarea, select, button, label, figcaption, blockquote, cite 
