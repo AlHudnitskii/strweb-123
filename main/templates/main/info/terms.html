@@ -16,6 +16,20 @@
 </header>
 
 <main>
+    <section id="dynamic-form-elements-section">           
+        <label>
+            <input type="checkbox" id="toggleGenerator"> 
+            <strong>Generate Checkbox Element</strong> (Click to add a new element)
+        </label>
+
+        <div id="controls-container"></div>
+
+        <button onclick="clearAllElements()" style="margin-top: 20px; padding: 10px; background-color: #f44336; color: white; border: none; cursor: pointer;">
+            Clear All Generated Elements
+        </button>
+    </section>
+    
+    <hr>
     {% if selected_term %}
         <article>
             <h2>{{ selected_term.question }}</h2>
@@ -49,12 +63,193 @@
 
 <style>
     details { border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px; padding: 10px; }
-    
     summary { cursor: pointer; font-weight: bold; list-style: none; }
     summary::-webkit-details-marker { display: none; }
     summary::after { content: "▼"; float: right; transition: transform 0.3s; }
-
     details[open] summary::after { transform: rotate(180deg); }
     details[open] { background: #f9f9f9; }
+
+    .checkbox-item {
+        border: 2px solid #007bff;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        background-color: #eaf4ff;
+    }
 </style>
+
+<script>
+    let elementCounter = 0;
+    const controlsContainer = document.getElementById('controls-container');
+    const generatorToggle = document.getElementById('toggleGenerator');
+
+    function generateCheckboxAndControls(initialData = {}) {
+        elementCounter++;
+        const id = `cb-${elementCounter}`;
+
+        const name = initialData.name || `checkbox_${elementCounter}`;
+        const value = initialData.value || 'checked';
+        const checked = initialData.checked || false;
+        const required = initialData.required || false;
+        const disabled = initialData.disabled || false;
+        
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'checkbox-item';
+        itemDiv.id = id;
+        itemDiv.innerHTML = `
+            <h4>Element ID: ${id}</h4>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="font-weight: bold;">Generated Checkbox:</label>
+                <input type="checkbox" id="input-${id}" 
+                       name="${name}" 
+                       value="${value}" 
+                       ${checked ? 'checked' : ''} 
+                       ${required ? 'required' : ''}
+                       ${disabled ? 'disabled' : ''} 
+                       onchange="saveElements()"> 
+                <span id="name-display-${id}">[Name: ${name}]</span>
+            </div>
+
+            <div class="controls-group">
+                <label>Name: 
+                    <input type="text" id="ctrl-name-${id}" value="${name}" oninput="applyAttributes('${id}')">
+                </label>
+                <label>Value: 
+                    <input type="text" id="ctrl-value-${id}" value="${value}" oninput="applyAttributes('${id}')">
+                </label>
+                <label>Checked (State): 
+                    <input type="checkbox" id="ctrl-checked-${id}" ${checked ? 'checked' : ''} onchange="applyAttributes('${id}')">
+                </label>
+                <label>Required (Obligatoriness): 
+                    <input type="checkbox" id="ctrl-required-${id}" ${required ? 'checked' : ''} onchange="applyAttributes('${id}')">
+                </label>
+                <label>Disabled: 
+                    <input type="checkbox" id="ctrl-disabled-${id}" ${disabled ? 'checked' : ''} onchange="applyAttributes('${id}')">
+                </label>
+            </div>
+            <button onclick="deleteElement('${id}')" style="margin-top: 10px; background-color: #ffc107; border: none; padding: 5px 10px; cursor: pointer;">
+                Remove Element
+            </button>
+        `;
+
+        controlsContainer.appendChild(itemDiv);
+        saveElements(); 
+    }
+
+    function applyAttributes(id) {
+        const checkbox = document.getElementById(`input-${id}`);
+        const nameControl = document.getElementById(`ctrl-name-${id}`);
+        const valueControl = document.getElementById(`ctrl-value-${id}`);
+        const checkedControl = document.getElementById(`ctrl-checked-${id}`);
+        const requiredControl = document.getElementById(`ctrl-required-${id}`);
+        const disabledControl = document.getElementById(`ctrl-disabled-${id}`);
+        const nameDisplay = document.getElementById(`name-display-${id}`);
+
+        if (!checkbox) return;
+
+        checkbox.setAttribute('name', nameControl.value);
+        checkbox.setAttribute('value', valueControl.value);
+        nameDisplay.textContent = `[Name: ${nameControl.value}]`;
+
+        checkbox.checked = checkedControl.checked;
+        
+        if (requiredControl.checked) {
+            checkbox.setAttribute('required', 'required');
+        } else {
+            checkbox.removeAttribute('required');
+        }
+
+        if (disabledControl.checked) {
+            checkbox.setAttribute('disabled', 'disabled');
+        } else {
+            checkbox.removeAttribute('disabled');
+        }
+        
+        saveElements(); 
+    }
+    
+    function deleteElement(id) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.remove();
+            saveElements(); 
+        }
+    }
+
+    function saveElements() {
+        const elementsData = [];
+        const items = controlsContainer.querySelectorAll('.checkbox-item');
+        
+        items.forEach(item => {
+            const id = item.id;
+            const checkbox = document.getElementById(`input-${id}`);
+            const nameControl = document.getElementById(`ctrl-name-${id}`);
+            const valueControl = document.getElementById(`ctrl-value-${id}`);
+            const requiredControl = document.getElementById(`ctrl-required-${id}`);
+            const disabledControl = document.getElementById(`ctrl-disabled-${id}`);
+
+            if (checkbox) {
+                 elementsData.push({
+                    id: id,
+                    name: nameControl.value,
+                    value: valueControl.value,
+                    checked: checkbox.checked,
+                    required: requiredControl.checked,
+                    disabled: disabledControl.checked
+                });
+            }
+        });
+
+        localStorage.setItem('dynamicCheckboxes', JSON.stringify(elementsData));
+        
+        if (elementsData.length > 0) {
+            const lastId = elementsData[elementsData.length - 1].id;
+            const numberMatch = lastId.match(/\d+$/);
+            if (numberMatch) {
+                elementCounter = parseInt(numberMatch[0]);
+            }
+        } else {
+            elementCounter = 0;
+        }
+    }
+
+    function loadElements() {
+        const savedData = localStorage.getItem('dynamicCheckboxes');
+        if (savedData) {
+            const elements = JSON.parse(savedData);
+            
+            elements.forEach(data => {
+                elementCounter = Math.max(elementCounter, parseInt(data.id.match(/\d+$/)[0] || 0)); 
+                
+                generateCheckboxAndControls(data); 
+            });
+            
+             const lastId = elements[elements.length - 1].id;
+             const numberMatch = lastId.match(/\d+$/);
+             if (numberMatch) {
+                 elementCounter = parseInt(numberMatch[0]);
+             }
+        }
+    }
+
+    function clearAllElements() {
+        if (confirm("Are you sure you want to clear all generated elements? This cannot be undone.")) {
+            controlsContainer.innerHTML = '';
+            localStorage.removeItem('dynamicCheckboxes');
+            elementCounter = 0;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadElements(); 
+
+        generatorToggle.addEventListener('change', function() {
+            if (this.checked) {
+                generateCheckboxAndControls();
+                this.checked = false; 
+            }
+        });
+    });
+</script>
 {% endblock %}

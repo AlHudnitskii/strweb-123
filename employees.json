@@ -1,0 +1,146 @@
+[
+  {
+    "model": "main.employee",
+    "pk": 1,
+    "fields": {
+      "fio": "Иванов Иван Иванович",
+      "photo": "http://site.ru/img/ivanov.png",
+      "job": "Руководитель отдела продаж",
+      "phone": "+375 (29) 111-22-33",
+      "email": "ivanov@heavyshop.by",
+      "description": "Отвечает за стратегию продаж и развитие ключевых клиентов."
+    }
+  },
+  {
+    "model": "main.employee",
+    "pk": 2,
+    "fields": {
+      "fio": "Петрова Анна Сергеевна",
+      "photo": "http://site.ru/img/petrova.png",
+      "job": "Ведущий разработчик",
+      "phone": "80299998877",
+      "email": "petrova@heavyshop.by",
+      "description": "Разработка бэкенда и архитектуры приложения."
+    }
+  },
+  {
+    "model": "main.employee",
+    "pk": 3,
+    "fields": {
+      "fio": "Смирнов Алексей Викторович",
+      "photo": "https://site.com/img/smirnov.html",
+      "job": "Специалист техподдержки",
+      "phone": "8 (033) 444-55-66",
+      "email": "smirnov@heavyshop.by",
+      "description": "Обеспечение бесперебойной работы сервисов."
+    }
+  },
+  {
+    "model": "main.employee",
+    "pk": 4,
+    "fields": {
+      "fio": "Ковалева Елена Николаевна",
+      "photo": "http://site.ru/img/kovaleva.php",
+      "job": "HR-менеджер",
+      "phone": "+375(44)7776655",
+      "email": "kovaleva@heavyshop.by",
+      "description": "Подбор и адаптация персонала, корпоративная культура."
+    }
+  },
+  {
+    "model": "main.employee",
+    "pk": 5,
+    "fields": {
+      "fio": "Сидоров Дмитрий Павлович",
+      "photo": "http://mysite.com/photo/sidorov.png",
+      "job": "Маркетолог",
+      "phone": "8 044 123 45 67",
+      "email": "sidorov@heavyshop.by",
+      "description": "Разработка рекламных кампаний и аналитика."
+    }
+  },
+  {
+    "model": "main.employee",
+    "pk": 6,
+    "fields": {
+      "fio": "Морозова Светлана Игоревна",
+      "photo": "http://site.com/img/morozova.html",
+      "job": "Финансовый аналитик",
+      "phone": "+375 (25) 555-44-33",
+      "email": "morozova@heavyshop.by",
+      "description": "Бюджетирование, финансовое планирование и контроль."
+    }
+  },
+  {
+    "model": "main.employee",
+    "pk": 7,
+    "fields": {
+      "fio": "Волков Максим Юрьевич",
+      "photo": "https://site.ru/photos/volkov.php",
+      "job": "Менеджер по закупкам",
+      "phone": "8 029 222 33 44",
+      "email": "volkov@heavyshop.by",
+      "description": "Оптимизация цепочек поставок и работа с поставщиками."
+    }
+  },
+  {
+    "model": "main.employee",
+    "pk": 8,
+    "fields": {
+      "fio": "Зайцева Ксения Леонидовна",
+      "photo": "http://site.com/img/zaitseva.png",
+      "job": "Дизайнер интерфейсов",
+      "phone": "+375(33)1002030",
+      "email": "zaitseva@heavyshop.by",
+      "description": "Проектирование удобных и красивых пользовательских интерфейсов."
+    }
+  },
+  {
+    "model": "main.employee",
+    "pk": 9,
+    "fields": {
+      "fio": "Николаев Евгений Сергеевич",
+      "photo": "http://example.com/photos/nikolaev.html",
+      "job": "Системный администратор",
+      "phone": "8 (044) 987 65 43",
+      "email": "nikolaev@heavyshop.by",
+      "description": "Поддержка IT-инфраструктуры компании."
+    }
+  },
+  {
+    "model": "main.employee",
+    "pk": 10,
+    "fields": {
+      "fio": "Терехова Мария Владимировна",
+      "photo": "https://test.net/images/terehova.php",
+      "job": "Консультант",
+      "phone": "+375 29 123 45 67",
+      "email": "terehova@heavyshop.by",
+      "description": "Консультирование клиентов по продуктам."
+    }
+  },
+  {
+    "model": "main.employee",
+    "pk": 11,
+    "fields": {
+      "fio": "Федоров Кирилл Андреевич",
+      "photo": "http://site.ru/img/fedorov.png",
+      "job": "Тестировщик",
+      "phone": "80291002030",
+      "email": "fedorov@heavyshop.by",
+      "description": "Функциональное и регрессионное тестирование ПО."
+    }
+  },
+  {
+    "model": "main.employee",
+    "pk": 12,
+    "fields": {
+      "fio": "Григорьева Дарья Олеговна",
+      "photo": "http://site.com/img/grigorieva.html",
+      "job": "Копирайтер",
+      "phone": "+375 (29) 333-44-55",
+      "email": "grigorieva@heavyshop.by",
+      "description": "Создание текстового контента для сайта и маркетинга."
+    }
+  }
+]

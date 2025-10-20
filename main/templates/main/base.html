@@ -27,12 +27,20 @@
                 </ul>
             </nav>
             <div style="display: flex; align-items: center;">
+                
+                <div class="theme-switch-wrapper">
+                    <label for="theme-toggle" style="margin-right: 18px; font-size: 14px;">☀️ / 🌙</label>
+                    <label class="theme-switch" for="theme-toggle" style="margin-right: 10px; ">
+                        <input type="checkbox" id="theme-toggle" onchange="toggleTheme()">
+                        <div class="slider round"></div>
+                    </label>
+                </div>
                 <a href="{% url "cart:cart_detail" %}" style="display: flex; align-items: center;">
                     <p>Cart</p>
                 </a>
                 <span style="background-color: #000; color: white; padding: 2px 6px; border-radius: 50%; margin-left: 5px;">
                     {% with cart_quantity=cart|length %}
-                        {% if cart_quantity > 0 %}
+                        {% if cart_quantity > 0 %} 
                             {{ cart_quantity }}
                         {% else %}
                             0
@@ -52,4 +60,57 @@
         {% endblock content %}
     </div>
 </body>
+<style>
+    body.dark-theme { background-color: #121212; color: #e0e0e0; }
+    body.dark-theme .nav { background-color: #1f1f1f !important; box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1); }
+    body.dark-theme .nav a, body.dark-theme .nav p { color: #e0e0e0 !important;  }
+    body.dark-theme .nav span { background-color: #555 !important; }
+    .theme-switch-wrapper { display: flex; align-items: center; margin-left: 20px; }
+    .theme-switch { display: inline-block; height: 34px; position: relative; width: 60px; }
+    .theme-switch input { display: none; }
+    .slider { background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; }
+    .slider:before { background-color: #fff; bottom: 4px; content: ""; height: 26px; left: 4px; position: absolute; transition: .4s; width: 26px; }
+    input:checked + .slider { background-color: #2196f3; }
+    input:checked + .slider:before { transform: translateX(26px); }
+    .slider.round { border-radius: 34px; }
+    .slider.round:before { border-radius: 50%; }
+</style>
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    const storageKey = 'userTheme';
+
+    function setTheme(theme) {
+        if (theme === 'dark') {
+            body.classList.add('dark-theme');
+            themeToggle.checked = true;
+            localStorage.setItem(storageKey, 'dark');
+        } else {
+            body.classList.remove('dark-theme');
+            themeToggle.checked = false;
+            localStorage.setItem(storageKey, 'light');
+        }
+    }
+
+    function toggleTheme() {
+        if (themeToggle.checked) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    }
+
+    function loadTheme() {
+        const savedTheme = localStorage.getItem(storageKey);
+        
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else {
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            setTheme(prefersDark ? 'dark' : 'light');
+        }
+    }
+    document.addEventListener('DOMContentLoaded', loadTheme);
+</script>
+
 </html>

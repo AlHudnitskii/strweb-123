@@ -47,7 +47,6 @@ def product_detail(request, slug):
         {"product": product, "cart_product_form": cart_product_form},
     )
 
-
 def product_list(request, category_slug=None):
     """Display a list of products, optionally filtered by category."""
 
@@ -56,7 +55,11 @@ def product_list(request, category_slug=None):
     current_category = None
     sort_by = request.GET.get("sort", "name") 
     search_query = request.GET.get("q")
-    page_number = request.GET.get("page", 1)  
+    page_number = request.GET.get("page", 1)
+    
+    items_per_page = int(request.GET.get("per_page", 3))
+    
+    items_per_page = max(3, min(items_per_page, 12))
 
     if category_slug:
         current_category = get_object_or_404(Category, slug=category_slug)
@@ -77,13 +80,14 @@ def product_list(request, category_slug=None):
 
     sort_options = {
         "name": "name",
-        "price_asc": "price",
-        "price_desc": "-price",  
+        "-name": "-name",
+        "price": "price",
+        "-price": "-price",
     }
     products = products.order_by(sort_options.get(sort_by, "name"))
     logger.info(f"Sorting products by: {sort_by or 'name'}")
 
-    paginator = Paginator(products, 5)
+    paginator = Paginator(products, items_per_page)
     try:
         products_page = paginator.page(page_number)
         logger.info(
@@ -105,6 +109,7 @@ def product_list(request, category_slug=None):
             "products": products_page,
             "sort_by": sort_by,
             "query": search_query,
+            "items_per_page": items_per_page,  
         },
     )
 
@@ -119,14 +124,12 @@ def about(request):
 
 def news(request, article_id=None):
     if article_id:
-        # Показ одной статьи
         selected_article = get_object_or_404(Article, id=article_id)
-        print(f"Showing article: {selected_article.title}")  # Отладка
+        print(f"Showing article: {selected_article.title}")  
         return render(request, 'main/info/news.html', {'selected_article': selected_article})
     else:
-        # Показ всех статей
         articles = Article.objects.all().order_by('-created_at')
-        print(f"Articles in view: {articles.count()}")  # Отладка
+        print(f"Articles in view: {articles.count()}")  
         return render(request, 'main/info/news.html', {'articles': articles})
 
 def terms(request):

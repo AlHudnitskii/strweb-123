@@ -49,15 +49,30 @@
                                 {% url 'main:product_list' as base_url %}
                             {% endif %}
                             
-                            <option value="{{ base_url }}?sort=name" {% if sort_by == 'name' %}selected{% endif %}>Name A-Z</option>
-                            <option value="{{ base_url }}?sort=-name" {% if sort_by == '-name' %}selected{% endif %}>Name Z-A</option>
-                            <option value="{{ base_url }}?sort=-price" {% if sort_by == '-price' %}selected{% endif %}>Price: High to Low</option>
-                            <option value="{{ base_url }}?sort=price" {% if sort_by == 'price' %}selected{% endif %}>Price: Low to High</option>
+                            <option value="{{ base_url }}?sort=name&per_page={{ items_per_page }}" {% if sort_by == 'name' %}selected{% endif %}>Name A-Z</option>
+                            <option value="{{ base_url }}?sort=-name&per_page={{ items_per_page }}" {% if sort_by == '-name' %}selected{% endif %}>Name Z-A</option>
+                            <option value="{{ base_url }}?sort=-price&per_page={{ items_per_page }}" {% if sort_by == '-price' %}selected{% endif %}>Price: High to Low</option>
+                            <option value="{{ base_url }}?sort=price&per_page={{ items_per_page }}" {% if sort_by == 'price' %}selected{% endif %}>Price: Low to High</option>
                         </select>
+                    </fieldset>
+                    
+                    <fieldset class="items-per-page">
+                        <label for="per_page_input">Items per page:</label>
+                        <input type="number" 
+                               id="per_page_input" 
+                               name="per_page_input" 
+                               min="1" 
+                               value="{{ items_per_page }}" 
+                               onchange="handlePerPageInput(this.value)" 
+                               aria-label="Enter number of items per page">
                     </fieldset>
                     
                     <div class="searching">
                         <form action="" method="get" role="search">
+                            <input type="hidden" name="per_page" value="{{ items_per_page }}">
+                            {% if sort_by %}
+                            <input type="hidden" name="sort" value="{{ sort_by }}">
+                            {% endif %}
                             <input type="text" name="q" placeholder="Search products..." aria-label="Search products" value="{{ request.GET.q }}">
                             <button type="submit">Search</button>
                         </form>
@@ -103,44 +118,44 @@
             </section>
 
             {% if products.paginator.num_pages > 1 %}
-            <nav aria-label="Products pagination">
-                <ul class="pagination">
-                    <li>
-                        {% if products.has_previous %}
-                            <a href="?page={{ products.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">
-                                Previous
-                            </a>
-                        {% else %}
-                            <span aria-disabled="true">Previous</span>
-                        {% endif %}
-                    </li>
-                    
-                    {% for page in products.paginator.page_range %}
-                        {% if page >= products.number|add:-2 and page <= products.number|add:2 %}
+                <nav aria-label="Products pagination">
+                    <ul class="pagination">
                         <li>
-                            {% if products.number == page %}
-                                <span aria-current="page" class="current-page">{{ page }}</span>
-                            {% else %}
-                                <a href="?page={{ page }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">
-                                    {{ page }}
+                            {% if products.has_previous %}
+                                <a href="?page={{ products.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}&per_page={{ items_per_page }}">
+                                    Previous
                                 </a>
+                            {% else %}
+                                <span aria-disabled="true">Previous</span>
                             {% endif %}
                         </li>
-                        {% endif %}
-                    {% endfor %}
+                        
+                        {% for page in products.paginator.page_range %}
+                            {% if page >= products.number|add:-2 and page <= products.number|add:2 %}
+                            <li>
+                                {% if products.number == page %}
+                                    <span aria-current="page" class="current-page">{{ page }}</span>
+                                {% else %}
+                                    <a href="?page={{ page }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}&per_page={{ items_per_page }}">
+                                        {{ page }}
+                                    </a>
+                                {% endif %}
+                            </li>
+                            {% endif %}
+                        {% endfor %}
 
-                    <li>
-                        {% if products.has_next %}
-                            <a href="?page={{ products.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}">
-                                Next
-                            </a>
-                        {% else %}
-                            <span aria-disabled="true">Next</span>
-                        {% endif %}
-                    </li>
-                </ul>
-            </nav>
-            {% endif %}
+                        <li>
+                            {% if products.has_next %}
+                                <a href="?page={{ products.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if sort_by %}&sort={{ sort_by }}{% endif %}&per_page={{ items_per_page }}">
+                                    Next
+                                </a>
+                            {% else %}
+                                <span aria-disabled="true">Next</span>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </nav>
+                {% endif %}
         </div>
     </div>
 </main>
@@ -190,5 +205,21 @@
     document.addEventListener('DOMContentLoaded', () => {
         addParallaxEffect();
     });
+
+    function handlePerPageInput(value) {
+        const newPerPage = parseInt(value, 10);
+        const perPageInput = document.getElementById('per_page_input');
+
+        if (isNaN(newPerPage) || newPerPage <= 0) {
+            alert('Please enter a valid number greater than 0 for items per page.');
+            perPageInput.value = '{{ items_per_page }}'; 
+            return;
+        }
+
+        const url = new URL(window.location);
+        url.searchParams.set('per_page', newPerPage);
+        url.searchParams.set('page', '1'); 
+        window.location = url.toString();
+    }
 </script>
 {% endblock content %}
