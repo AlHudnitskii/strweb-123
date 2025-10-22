@@ -11,11 +11,9 @@
 {% endblock %}
 
 {% block content %}
-<header>
-    <h1 id="news-heading">HeavyShop News</h1>
-</header>
-
 <main role="main">
+    <section class="scroll-animation-section" id="animation-section-dummy" style="height: 150vh;"></section>
+    
     <section aria-labelledby="news-heading">
         {% if selected_article %}
             <article itemscope itemtype="http://schema.org/Article">
@@ -80,17 +78,158 @@
     </nav>
     <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
 </footer>
+<div>
+    <button id="pause">Pause</button> 
+    <button id="play">Play</button>
+    <button id="cancel">Cancel</button>
+    <button id="faster">Faster</button>
+    <button id="slower">Slower</button>
+</div>
+<div id="rect"></div>
 <style>
-    .system-font { font-family: system-ui }
-    nav { font-family: 'Inter', sans-serif; font-weight: 500; }    
+    #scroll-animation-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; pointer-events: none; z-index: 10; overflow: hidden; }
+    #shopping-cart { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); transition: none; will-change: transform; z-index: 12; }
+    .falling-product { position: absolute; font-size: 48px; top: -100px; opacity: 0; will-change: transform, opacity; z-index: 11; }
+    #animation-section-dummy { pointer-events: none; }
+    #rect { width:50px; height: 50px; background-color: green; margin-top: 20px; }
+</style>
 
-    .news_preview {
-        white-space: nowrap;
-        overflow: hidden;
-        padding: 5px;
-        text-overflow: ellipsis; 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dummySection = document.getElementById('animation-section-dummy');
+    
+    let animationContainer = document.getElementById('scroll-animation-container');
+    if (!animationContainer) {
+        animationContainer = document.createElement('div');
+        animationContainer.id = 'scroll-animation-container';
+        document.body.appendChild(animationContainer);
+    }
+    
+    cart = document.createElement('div');
+    cart.id = 'shopping-cart';
+    cart.innerHTML = `
+        <svg width="120" height="100" viewBox="0 0 120 100" style="filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
+            <path d="M20 30 L100 30 L95 70 Q95 75 90 75 L30 75 Q25 75 25 70 Z" 
+                fill="#FF6B35" stroke="#333" stroke-width="3"/>
+            <circle cx="38" cy="85" r="6" fill="#333"/>
+            <circle cx="82" cy="85" r="6" fill="#333"/>
+            <path d="M10 20 L25 20 L30 30" fill="none" stroke="#333" stroke-width="3"/>
+        </svg>
+    `;
+    animationContainer.appendChild(cart);
+
+    const productsData = [
+        { emoji: '🔨', startX: -200, endX: -20, swayFactor: 1 },
+        { emoji: '🔧', startX: 250, endX: 30, swayFactor: -1.2 },
+        { emoji: '⚙️', startX: -300, endX: 5, swayFactor: 0.8 },
+    ];
+    
+    const productElements = [];
+    const animationObjects = [];
+
+    productsData.forEach((product, index) => {
+        let productEl = document.querySelector(`.falling-product[data-index="${index}"]`);
+        if (!productEl) {
+            productEl = document.createElement('div');
+            productEl.className = 'falling-product';
+            productEl.innerHTML = `<span style="font-size: 48px;">${product.emoji}</span>`;
+            productEl.setAttribute('data-index', index);
+            productEl.style.left = `calc(50% + ${product.startX}px)`;
+            animationContainer.appendChild(productEl);
+        }
+        productElements.push(productEl);
+    });
+    
+    function createProductAnimation(product, index) {
+        const productData = productsData[index];
+        const startY = -100;
+        const endY = window.innerHeight - 250; 
+        const delay = index * 0.1; 
+        const swayFreq = 10;
+        const swayAmp = 40;
+        const totalDuration = 0.8; 
+        
+        return function(scrollProgress) {
+            let adjustedProgress = Math.max(0, Math.min(1, (scrollProgress - delay) / totalDuration));
+            let currentY = startY + (endY - startY) * adjustedProgress;
+            let swayX = Math.sin(adjustedProgress * swayFreq) * swayAmp * productData.swayFactor;
+            let rotation = adjustedProgress * 720 * productData.swayFactor;
+
+            if (adjustedProgress > 0.9) {
+                const bounceProgress = (adjustedProgress - 0.9) / 0.1; 
+                const bounceY = Math.sin(bounceProgress * Math.PI) * 20; 
+                currentY += bounceY;
+            }
+            
+            product.style.top = `${currentY}px`;
+            product.style.transform = `translateX(${productData.endX + swayX}px) rotate(${rotation}deg)`;
+            product.style.opacity = adjustedProgress > 0 && adjustedProgress < 1 ? '1' : '0';
+        };
     }
 
-    .main_info { columns: 100px 3; column-gap: 30px; word-break: break-word; }
-</style>
+    productElements.forEach((el, index) => {
+        animationObjects.push({
+            animate: createProductAnimation(el, index)
+        });
+    });
+
+    function updateScrollAnimation() {
+        const scrollY = window.scrollY;
+        
+        const animationHeight = dummySection.offsetHeight;
+        const startScroll = dummySection.offsetTop;
+        
+        const endScroll = startScroll + animationHeight - window.innerHeight;
+
+        let scrollProgress = (scrollY - startScroll) / (endScroll - startScroll);
+        scrollProgress = Math.max(0, Math.min(1, scrollProgress)); 
+
+        const cartBottom = 50; 
+        const cartStart = -150;
+        const currentCartBottom = cartStart + (cartBottom - cartStart) * scrollProgress;
+        
+        cart.style.bottom = `${currentCartBottom}px`;
+        
+        const swing = Math.sin(scrollProgress * 15) * 5 * scrollProgress;
+        cart.style.transform = `translateX(-50%) rotate(${swing}deg)`;
+
+        animationObjects.forEach(obj => {
+            obj.animate(scrollProgress);
+        });
+    }
+    
+    window.addEventListener('scroll', updateScrollAnimation, { passive: true });
+    window.addEventListener('resize', updateScrollAnimation);
+    updateScrollAnimation();     
+});
+
+const rect = document.getElementById("rect");
+const frames = [{
+    marginLeft: "50px",      
+    offset: 0    
+},{      
+    marginLeft: "100px",
+    offset: 0.3    
+},{      
+    marginLeft: "150px",   
+    offset: 0.6    
+},{      
+    marginLeft: "200px",    
+    offset: 1    
+}];
+
+const config = {    
+    duration: 600,          
+    easing: "ease-in-out",
+    iterations: Infinity,
+    direction: "alternate"
+};
+const animation = rect.animate(frames, config);
+ 
+document.getElementById("pause").addEventListener("click", () => animation.pause());
+document.getElementById("play").addEventListener("click", () => animation.play());
+document.getElementById("cancel").addEventListener("click", () => animation.cancel());
+document.getElementById("faster").addEventListener("click", () => animation.playbackRate *= 2);
+document.getElementById("slower").addEventListener("click", () => animation.playbackRate /= 2);
+</script>
 {% endblock %}
