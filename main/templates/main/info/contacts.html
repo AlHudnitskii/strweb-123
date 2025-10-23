@@ -14,80 +14,45 @@
 {% endblock %}
 
 {% block content %}
-<header>
-    <h1 id="team-heading">Our <mark>Team</mark></h1>
-    <p>Meet the experienced professionals behind HeavyShop</p>
-</header>
-
 <div class="main-content">
-    <section aria-labelledby="team-heading" itemscope itemtype="http://schema.org/Organization">
-        <div class="employees-flex" >
-            {% for employee in employees %}
-            <article class="employee-card" itemscope itemtype="http://schema.org/Person">
-                <header>
-                    <h2 itemprop="name">{{ employee.name }}</h2>
-                    <p class="employee-position" itemprop="jobTitle">{{ employee.position }}</p>
-                </header>
-                
-                {% if employee.photo %}
-                <figure>
-                    <img src="{{ employee.photo.url }}" alt="Portrait of {{ employee.name }}" itemprop="image" width="200" height="600" style="max-width: 100%; height: auto;">
-                </figure>
-                {% endif %}
+    
+    <section id="vacancy-task-section" aria-labelledby="task-heading" style="margin-top: 40px; padding: 20px; border: 2px solid #333; border-radius: 8px;">
+        <header>
+            <p>Найти самые высокооплачиваемые рабочие места (выше среднего по профессии).</p>
+        </header>
 
-                <div class="employee-contacts">
-                    <div class="contact-item">
-                        <span class="contact-icon">📞</span>
-                        <a href="tel:{{ employee.phone }}" itemprop="telephone">{{ employee.phone }}</a>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <span class="contact-icon">✉️</span>
-                        <a href="mailto:{{ employee.email }}" itemprop="email">{{ employee.email }}</a>
-                    </div>
-                </div>
-
-                <footer>
-                    <p itemprop="description">{{ employee.description }}</p>
-                </footer>
-            </article>
-            {% empty %}
-            <div class="no-employees">
-                <p>No team members available at the moment.</p>
-                <p>Please check back later or <a href="/contacts/">contact us</a> directly.</p>
+        <h3 style="margin-top: 20px;">1. Добавить новую вакансию</h3>
+        <form id="add-vacancy-form" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 20px; border: 1px solid #eee; padding: 15px; border-radius: 5px;">
+            <div style="flex-grow: 1;">
+                <label for="prof-input">Профессия:</label>
+                <input type="text" id="prof-input">
             </div>
-            {% endfor %}
+            <div style="flex-grow: 1;">
+                <label for="salary-input">Оплата (BYN):</label>
+                <input type="number" id="salary-input" required min="0">
+            </div>
+            <div style="flex-grow: 1;">
+                <label for="phone-input">Телефон:</label>
+                <input type="text" id="phone-input">
+            </div>
+            <button type="submit" id="add-btn" style="padding: 10px 15px;">Добавить (Класс)</button>
+        </form>
+
+        <h3 style="margin-top: 20px;">2. Вывод всех вакансий</h3>
+        <button onclick="vacancyManager.displayAll(document.getElementById('all-vacancies-output'))" style="margin-bottom: 15px;">Показать все вакансии</button>
+        <div id="all-vacancies-output">
+        </div>
+
+        <h3 style="margin-top: 20px;">3. Результат: Вакансии выше среднего</h3>
+        <button onclick="vacancyManager.calculateAndDisplayResult(document.getElementById('result-output'))" style="margin-bottom: 15px;">Найти лучшие предложения</button>
+        <div id="result-output">
         </div>
     </section>
-
-    <aside aria-labelledby="company-contacts-heading" id="company-contacts" class='team_mem'>
-        <header>
-            <h2 id="company-contacts-heading">Company Contacts</h2>
-        </header>
-        
-        <article itemscope itemtype="http://schema.org/Organization">
-            <address>
-                <strong itemprop="name">HeavyShop LLC</strong><br>
-                <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                    <span itemprop="streetAddress">45 Industrial Avenue</span>,<br>
-                    <span itemprop="addressLocality">Minsk</span>, 
-                    <span itemprop="addressCountry">Belarus</span>
-                </span><br>
-                <section id="phone-section">
-                    General Phone: <a href="tel:+375295551234" itemprop="telephone">+375 29 555-12-34</a><br>
-                </section>
-                General Email: <a href="mailto:info@heavyshop.by" itemprop="email">info@heavyshop.by</a>
-            </address>
-        </article>
-    </aside>
-</div>
-
-<nav class="vertical-nav" aria-label="Quick links">
-    <h3>Quick Navigation</h3>
-    <a href="#team-heading">Team Members</a>
-    <a href="#company-contacts">Company Info</a>
-</nav>
-
+    <section aria-labelledby="team-heading" itemscope itemtype="http://schema.org/Organization">
+        <div class="employees-flex" >
+             </div>
+    </section>
+    </div>
 <footer role="contentinfo" id="footer">
     <nav aria-label="Related contact pages" id="support">
         <a href="/privacy/">Privacy Policy</a>
@@ -96,25 +61,207 @@
     </nav>
     <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
 </footer>
-<style>
-    @font-face { font-family: 'CustomFont'; src: url('/static/fonts/customfont.woff2') format('woff2'); }
-    * { font-family: 'CustomFont', Arial, sans-serif; }  
+<script>
+class VacancyManager {
+    constructor() { this.vacancies = this.getInitialData(); }
     
-    .employees-flex {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: center; 
-        padding: 20px;
+    getInitialData() {
+        return [
+            new Vacancy('Администратор', 1800, '+375291010101'),
+            new Vacancy('Администратор', 2500, '+375291020202'), 
+            new Vacancy('Администратор', 1200, '+375291030303'),
+            
+            new Vacancy('Продавец', 1400, '+375292010101'),
+            new Vacancy('Продавец', 1600, '+375292020202'),
+            new Vacancy('Продавец', 3000, '+375292030303'), 
+
+            new Vacancy('Программист', 2200, '+375293010101'), 
+            new Vacancy('Программист', 1900, '+375293020202'),
+        ];
+    }
+    
+    addVacancy(profession, salary, phone) {
+        if (profession && salary >= 0 && phone) {
+            const newVacancy = new Vacancy(profession, salary, phone);
+            this.vacancies.push(newVacancy);
+            return true;
+        }
+        return false;
     }
 
-    .employee-card {
-        flex-grow: 1;
-        max-width: 350px;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        text-align: center;
+    displayAll(outputElement) {
+        if (!outputElement) return;
+        
+        let html = this.vacancies.map((v, index) => {
+            return `
+                <p>
+                    <strong>[${index + 1}] ${v.getProfession()}</strong> 
+                    | Оплата: ${v.getSalary()} BYN 
+                    | Контакт: ${v.getPhone()}
+                </p>
+            `;
+        }).join('');
+        
+        outputElement.innerHTML = html || '<p>Список вакансий пуст.</p>';
     }
-</style>
+
+    calculateAndDisplayResult(resultElement) {
+        if (!resultElement) return;
+        
+        if (this.vacancies.length === 0) {
+            resultElement.innerHTML = '<p>Нет данных для анализа. Пожалуйста, добавьте вакансии.</p>';
+            return;
+        }
+
+        const professionStats = {};
+        
+        this.vacancies.forEach(v => {
+            const prof = v.getProfession();
+            const salary = v.getSalary();
+            
+            if (!professionStats[prof]) {
+                professionStats[prof] = { totalSalary: 0, count: 0, vacancies: [] };
+            }
+            
+            professionStats[prof].totalSalary += salary;
+            professionStats[prof].count += 1;
+            professionStats[prof].vacancies.push(v);
+        });
+
+        const highPayingVacancies = [];
+        
+        for (const prof in professionStats) {
+            const stats = professionStats[prof];
+            const averageSalary = stats.totalSalary / stats.count;
+            
+            const bestOffers = stats.vacancies.filter(v => v.getSalary() > averageSalary);
+
+            if (bestOffers.length > 0) {
+                highPayingVacancies.push({
+                    profession: prof,
+                    average: averageSalary,
+                    offers: bestOffers
+                });
+            }
+        }
+
+        let html = '<h3>Самые высокооплачиваемые вакансии (выше среднего):</h3>';
+        if (highPayingVacancies.length === 0) {
+            html += '<p>Все вакансии имеют оплату ниже или равную средней по их профессии.</p>';
+        } else {
+            highPayingVacancies.forEach(group => {
+                html += `
+                    <h4>Профессия: ${group.profession}</h4>
+                    <p>Средняя оплата по профессии: ${group.average.toFixed(2)} BYN</p>
+                    <ul>
+                        ${group.offers.map(v => `
+                            <strong>${v.getSalary()} BYN</strong> (Контакт: ${v.getPhone()})
+                        `).join('')}
+                    </ul>
+                `;
+            });
+        }
+        resultElement.innerHTML = html;
+    }
+}
+
+
+
+class VacancyBase {
+    constructor(profession, salary) {
+        this._profession = profession;
+        this._salary = Number(salary);
+    }
+
+    getProfession() { return this._profession; }
+
+    setSalary(newSalary) {
+        if (typeof newSalary === 'number' && newSalary >= 0) this._salary = newSalary;
+        else console.error("Некорректное значение зарплаты.");
+    }
+    
+    getSalary() { return this._salary; }
+    getBaseInfo() { return `Вакансия: ${this._profession}, Оплата: ${this._salary}`; }
+    static createDefault() { return new VacancyBase('Не указана', 0); }
+}
+
+class Vacancy extends VacancyBase {
+    constructor(profession, salary, phone) {
+        super(profession, salary); 
+        this._phone = phone; 
+    }
+
+    getPhone() { return this._phone; }
+    setPhone(newPhone) { this._phone = newPhone; }
+    getFullInfo() { return `${this.getBaseInfo()}, Контакт: ${this._phone}`; }
+    getProfession() { return super.getProfession(); }
+    getSalary() { return super.getSalary(); }
+}
+
+
+function VacancyBaseProto(profession, salary) {
+    this._profession = profession;
+    this._salary = Number(salary);
+}
+
+VacancyBaseProto.prototype.getProfession = function() { return this._profession; }; 
+VacancyBaseProto.prototype.setSalary = function(newSalary) { 
+    if (typeof newSalary === 'number' && newSalary >= 0) this._salary = newSalary;
+};
+VacancyBaseProto.prototype.getSalary = function() { return this._salary; }; 
+VacancyBaseProto.prototype.getBaseInfo = function() { 
+    return `Вакансия: ${this._profession}, Оплата: ${this._salary}`;
+};
+VacancyBaseProto.createDefault = function() { 
+    return new VacancyBaseProto('Не указана', 0);
+};
+
+
+function VacancyProto(profession, salary, phone) {
+    VacancyBaseProto.call(this, profession, salary); 
+    this._phone = phone; 
+}
+
+VacancyProto.prototype = Object.create(VacancyBaseProto.prototype);
+VacancyProto.prototype.constructor = VacancyProto; 
+
+VacancyProto.prototype.getPhone = function() { return this._phone; }; 
+VacancyProto.prototype.setPhone = function(newPhone) { this._phone = newPhone; };
+VacancyProto.prototype.getFullInfo = function() { 
+    return `${this.getBaseInfo()}, Контакт: ${this._phone}`;
+};
+VacancyProto.prototype.getProfession = function() {
+    return VacancyBaseProto.prototype.getProfession.call(this);
+};
+VacancyProto.prototype.getSalary = function() { 
+    return VacancyBaseProto.prototype.getSalary.call(this);
+};
+
+const vacancyManager = new VacancyManager();
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('add-vacancy-form');
+    const profInput = document.getElementById('prof-input');
+    const salaryInput = document.getElementById('salary-input');
+    const phoneInput = document.getElementById('phone-input');
+    const outputElement = document.getElementById('all-vacancies-output');
+
+    vacancyManager.displayAll(outputElement);
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const profession = profInput.value.trim();
+        const salary = parseFloat(salaryInput.value);
+        const phone = phoneInput.value.trim();
+        
+        if (vacancyManager.addVacancy(profession, salary, phone)) {
+            alert('Вакансия добавлена!');
+            form.reset();
+            vacancyManager.displayAll(outputElement); 
+        } else {
+            alert('Ошибка при добавлении: проверьте поля.');
+        }
+    });
+});
+</script>
 {% endblock %}
