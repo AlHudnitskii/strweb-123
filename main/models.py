@@ -57,15 +57,19 @@ class Article(models.Model):
 
 
 class Employee(models.Model):
-      name = models.CharField(max_length=100)
-      position = models.CharField(max_length=100)
-      photo = models.ImageField(upload_to='employees/', blank=True, null=True)
-      phone = models.CharField(max_length=30)
-      email = models.EmailField()
-      description = models.TextField(blank=True)
-   
-      def __str__(self):
-         return self.name    
+    name = models.CharField(max_length=100, verbose_name="FIO")
+    position = models.CharField(max_length=100, verbose_name="Position")
+    photo_url = models.URLField(max_length=200, blank=True, null=True, verbose_name="URL photo") 
+    phone = models.CharField(max_length=30, verbose_name="Phone")
+    email = models.EmailField(verbose_name="Email")
+    description = models.TextField(blank=True, verbose_name="Description")
+    
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Employee"
+        verbose_name_plural = "Employees"
       
 class Vacancy(models.Model):
    title = models.CharField(max_length=200)

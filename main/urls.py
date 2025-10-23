@@ -20,4 +20,5 @@ urlpatterns = [
     path('reviews/', views.reviews, name='reviews'),
     path('statistics/', views.statistics, name='statistics'),
     path('privacy/', views.privacy, name='privacy'),
+    path('api/employee-data/', views.employee_data_json, name='employee_data_json'),    
 ]

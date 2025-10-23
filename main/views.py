@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.db.models import Sum, Count, F, Q
+from django.http import JsonResponse
 
 from orders.models import Order
 from .models import (
@@ -14,6 +15,22 @@ from .models import (
 from cart.forms import CartAddProductForm
 
 logger = logging.getLogger(__name__)
+
+def employee_data_json(request):
+    employees = Employee.objects.all()
+    
+    data = []
+    for emp in employees:
+        data.append({
+            'id': emp.id,
+            'name': emp.name,
+            'position': emp.position,
+            'photo_url': emp.photo_url if emp.photo_url else '', 
+            'phone': emp.phone,
+            'email': emp.email,
+            'description': emp.description,
+        }) 
+    return JsonResponse(data, safe=False)
 
 def home(request):
     products = Product.objects.filter(available=True)[:5]
