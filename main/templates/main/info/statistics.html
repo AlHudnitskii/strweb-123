@@ -171,7 +171,7 @@
         const data = {
             labels: xValues,
             datasets: [{
-                label: 'F(x) - Taylor series e^x (n=' + N_TERMS + ')',
+                label: 'F(x) - Taylor series - e^x',
                 data: taylorSeriesValues,
                 borderColor: 'rgb(255, 99, 132)', 
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
@@ -196,8 +196,8 @@
                 responsive: true,
                 maintainAspectRatio: false, 
                 animation: {
-                    duration: 1500, 
-                    easing: 'easeOutQuart',
+                    duration: 1500, //1.5 cek
+                    easing: 'easeOutQuart', //чтоб медленно шло 
                 },
                 plugins: {
                     legend: {

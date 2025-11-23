@@ -133,10 +133,8 @@
                 </p>
             `;
             
-            alert(`⚠️ You are a minor (${age} years). Parental consent is required to use this website!`);
+            alert(`You are a minor (${age} years). Parental consent is required to use this website!`);
         }
     }
-
-    document.getElementById('birthdate').max = new Date().toISOString().split('T')[0];
 </script>
 {% endblock %}

@@ -204,14 +204,17 @@ function VacancyBaseProto(profession, salary) {
     this._salary = Number(salary);
 }
 
-VacancyBaseProto.prototype.getProfession = function() { return this._profession; }; 
+VacancyBaseProto.prototype.getProfession = function() { return this._profession; };
+
 VacancyBaseProto.prototype.setSalary = function(newSalary) { 
     if (typeof newSalary === 'number' && newSalary >= 0) this._salary = newSalary;
 };
 VacancyBaseProto.prototype.getSalary = function() { return this._salary; }; 
+
 VacancyBaseProto.prototype.getBaseInfo = function() { 
     return `Вакансия: ${this._profession}, Оплата: ${this._salary}`;
 };
+
 VacancyBaseProto.createDefault = function() { 
     return new VacancyBaseProto('Не указана', 0);
 };

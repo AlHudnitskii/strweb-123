@@ -20,5 +20,5 @@ urlpatterns = [
     path('reviews/', views.reviews, name='reviews'),
     path('statistics/', views.statistics, name='statistics'),
     path('privacy/', views.privacy, name='privacy'),
-    path('api/employee-data/', views.employee_data_json, name='employee_data_json'),    
-]
+    path('employees_page/', views.employee_list_page, name='employee_list_page'), 
+    path('employees/', views.employees_data_json, name='employees_data_json'),]

@@ -70,6 +70,7 @@ class Employee(models.Model):
     class Meta:
         verbose_name = "Employee"
         verbose_name_plural = "Employees"
+        ordering = ['name']
       
 class Vacancy(models.Model):
    title = models.CharField(max_length=200)

@@ -103,12 +103,8 @@
     function loadTheme() {
         const savedTheme = localStorage.getItem(storageKey);
         
-        if (savedTheme) {
-            setTheme(savedTheme);
-        } else {
-            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            setTheme(prefersDark ? 'dark' : 'light');
-        }
+        if (savedTheme) setTheme(savedTheme);
+        else setTheme('light');
     }
     document.addEventListener('DOMContentLoaded', loadTheme);
 </script>

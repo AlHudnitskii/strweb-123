@@ -171,10 +171,8 @@
     
     function deleteElement(id) {
         const element = document.getElementById(id);
-        if (element) {
-            element.remove();
-            saveElements(); 
-        }
+        element.remove();
+        saveElements(); 
     }
 
     function saveElements() {
@@ -189,16 +187,14 @@
             const requiredControl = document.getElementById(`ctrl-required-${id}`);
             const disabledControl = document.getElementById(`ctrl-disabled-${id}`);
 
-            if (checkbox) {
-                 elementsData.push({
-                    id: id,
-                    name: nameControl.value,
-                    value: valueControl.value,
-                    checked: checkbox.checked,
-                    required: requiredControl.checked,
-                    disabled: disabledControl.checked
-                });
-            }
+            elementsData.push({
+                id: id,
+                name: nameControl.value,
+                value: valueControl.value,
+                checked: checkbox.checked,
+                required: requiredControl.checked,
+                disabled: disabledControl.checked
+            });
         });
 
         localStorage.setItem('dynamicCheckboxes', JSON.stringify(elementsData));
@@ -206,9 +202,7 @@
         if (elementsData.length > 0) {
             const lastId = elementsData[elementsData.length - 1].id;
             const numberMatch = lastId.match(/\d+$/);
-            if (numberMatch) {
-                elementCounter = parseInt(numberMatch[0]);
-            }
+            elementCounter = parseInt(numberMatch[0]);
         } else {
             elementCounter = 0;
         }
@@ -227,9 +221,7 @@
             
              const lastId = elements[elements.length - 1].id;
              const numberMatch = lastId.match(/\d+$/);
-             if (numberMatch) {
-                 elementCounter = parseInt(numberMatch[0]);
-             }
+             elementCounter = parseInt(numberMatch[0]);
         }
     }
 

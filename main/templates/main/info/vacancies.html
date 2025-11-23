@@ -17,22 +17,13 @@
             <svg width="240" height="180" viewBox="0 0 240 180" fill="none">
                 <circle class="cart-anim wheel-left" cx="85" cy="135" r="15" fill="none" stroke="#1976d2" stroke-width="5" opacity="0.18"/>
                 <circle class="cart-anim wheel-right" cx="155" cy="135" r="15" fill="none" stroke="#5b9cf7" stroke-width="5" opacity="0.18"/>
-
-                <polyline class="cart-anim body"
-                          points="60,50 190,50 175,100 60,100 70,115 175,115"
-                          stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.18"/>
-
-                <polyline class="cart-anim handle"
-                          points="45,35 60,40 60,50"
-                          stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.18"/>
-
+                <polyline class="cart-anim body" points="60,50 190,50 175,100 60,100 70,115 175,115" stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.18"/>
+                <polyline class="cart-anim handle" points="45,35 60,40 60,50" stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.18"/>
                 <g class="cart-anim all">
                     <circle cx="85" cy="135" r="15" fill="none" stroke="#1976d2" stroke-width="5"/>
                     <circle cx="155" cy="135" r="15" fill="none" stroke="#5b9cf7" stroke-width="5"/>
-                    <polyline points="60,50 190,50 175,100 60,100 70,115 175,115"
-                              stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                    <polyline points="45,35 60,40 60,50"
-                              stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <polyline points="60,50 190,50 175,100 60,100 70,115 175,115" stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <polyline points="45,35 60,40 60,50" stroke="#1976d2" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                 </g>
             </svg>
         </div>
@@ -93,7 +84,7 @@
                     <tr>
                         <th class="col-checkbox"><input type="checkbox" id="select-all-checkbox"></th>
                         <th data-column="name">ФИО <span class="sort-indicator"></span></th>
-                        <th data-column="photo_url">Фото</th>
+                        <th data-column="photo">Фото</th>
                         <th data-column="position">Должность <span class="sort-indicator"></span></th>
                         <th data-column="phone">Телефон <span class="sort-indicator"></span></th>
                         <th data-column="email">E-mail <span class="sort-indicator"></span></th>
@@ -116,8 +107,7 @@
             <p id="info-content">Кликните на строку, чтобы увидеть детали.</p>
         </div>
 
-        <div id="reward-message-block" class="info-block info-success">
-        </div>
+        <div id="reward-message-block" class="info-block info-success"></div>
     </article>
 </main>
 
@@ -133,324 +123,62 @@
 <style>
 main { padding: 1rem; max-width: 1200px; margin: 0 auto; }
 .employee-page-content { padding: 20px; }
-.controls-group, .filter-controls {
-    margin-bottom: 1rem;
-    display: flex;
-    gap: 0.75rem; 
-    align-items: center;
-    flex-wrap: wrap;
-}
-
+.controls-group, .filter-controls { margin-bottom: 1rem; display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
 .filter-controls { margin-bottom: 20px; }
 .table-responsive { overflow-x: auto; }
-
-.employee-table {
-    width: 100%; 
-    max-height: 500px;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-bottom: 1rem;
-    background: white;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.employee-table th,
-.employee-table td {
-    border-bottom: 1px solid #e1e5e9;
-    padding: 0.75rem 0.5rem; 
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    transition: background-color 0.2s ease;
-    font-size: 0.875rem;
-}
-
-.employee-table th {
-    background-color: #f8f9fa;
-    cursor: pointer;
-    user-select: none;
-    position: relative;
-    font-weight: 600;
-    color: #2d3748;
-    border-bottom: 2px solid #e2e8f0;
-}
-
+.employee-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-bottom: 1rem; background: white; border-radius: 6px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); overflow: hidden; }
+.employee-table th, .employee-table td { border-bottom: 1px solid #e1e5e9; padding: 0.75rem 0.5rem; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: background-color 0.2s ease; font-size: 0.875rem; }
+.employee-table th { background-color: #f8f9fa; cursor: pointer; user-select: none; position: relative; font-weight: 600; color: #2d3748; border-bottom: 2px solid #e2e8f0; }
 .employee-table th.col-checkbox { width: 30px; cursor: default; }
 .employee-table th:hover { background-color: #edf2f7; }
-
-.employee-table th .sort-indicator {
-    position: absolute;
-    right: 0.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.75rem;
-    color: #718096;
-}
-
+.employee-table th .sort-indicator { position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); font-size: 0.75rem; color: #718096; }
 .employee-table tr:hover:not(.selected-row) { background-color: #f7fafc; }
-
 .employee-table .selected-row { background-color: #ebf8ff !important; cursor: pointer; box-shadow: inset 0 0 0 1px #4299e1; }
-
 .table-image { width: 2.5rem; height: 2.5rem; object-fit: cover; border-radius: 4px; border: 1px solid #e2e8f0; }
 .employee-table tr:last-child td { border-bottom: none; }
-
-#add-form-container {
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    display: none;
-    background: #f8f9fa;
-}
-
+#add-form-container { border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem; margin-bottom: 1rem; display: none; background: #f8f9fa; }
 .form-group { margin-bottom: 0.75rem; }
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.25rem;
-    font-weight: 600;
-    color: #2d3748;
-    font-size: 0.8rem;
-}
-
-.form-group input,
-.form-group textarea,
-.filter-controls input { 
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #cbd5e0;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 0.875rem;
-    transition: all 0.2s ease;
-    background: white;
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.filter-controls input:focus {
-    outline: none;
-    border-color: #4299e1;
-    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.1);
-}
-
-#filter-text {
-    width: auto;
-    flex: 1;
-    min-width: 180px;
-    margin: 0;
-}
-
-button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-button:hover:not(:disabled) {
-    filter: brightness(0.9);
-}
-
-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
-.btn-primary { 
-    background: #48bb78;
-    color: white;
-}
-
-.btn-secondary {
-    background: #4299e1;
-    color: white;
-}
-.btn-secondary:disabled {
-    background: #a0aec0;
-}
-
-.btn-success { 
-    background: #38a169;
-    color: white;
-}
-
-.btn-default { 
-    background: #e2e8f0;
-    color: #2d3748;
-}
-.btn-default:hover:not(:disabled) {
-    background: #cbd5e0;
-}
-
-.invalid-input {
-    border: 1px solid #e53e3e !important;
-    background-color: #fed7d7 !important;
-}
-
-.validation-message {
-    margin-top: 0.25rem;
-    font-size: 0.7rem;
-    font-weight: 500;
-}
-
-.validation-error {
-    color: #e53e3e;
-}
-
-.validation-success {
-    color: #38a169;
-}
-
-.info-block {
-    border-radius: 6px;
-    padding: 1rem;
-    margin-top: 1rem;
-    display: none;
-    font-size: 0.875rem;
-}
-
-.info-details { 
-    border: 1px solid #4299e1;
-    background: #ebf8ff;
-}
-.info-details img {
-    max-width: 150px;
-    height: auto;
-    margin-top: 1rem;
-    display: block;
-    border-radius: 4px;
-}
-
-.info-success { 
-    border: 1px solid #48bb78;
-    background-color: #f0fff4;
-}
-
-.info-success p {
-    margin: 0.25rem 0;
-    color: #2d3748;
-}
-
-.info-success strong {
-    color: #2f855a;
-}
-
-.pagination-controls {
-    text-align: center;
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.pagination-controls button {
-    margin: 0;
-    padding: 0.4rem 0.8rem;
-    cursor: pointer;
-    border: 1px solid #cbd5e0;
-    background-color: white;
-    color: #4a5568;
-    font-size: 0.8rem;
-}
-
-.pagination-controls button:hover:not(:disabled) {
-    background-color: #edf2f7;
-    border-color: #a0aec0;
-}
-
-#page-info {
-    font-size: 0.8rem;
-    color: #718096;
-    margin: 0 0.75rem;
-}
-
-
-.preloader-overlay { 
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    z-index: 10000;
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
-
-.preloader-cart {
-    width: 200px;
-    margin: 0 auto;
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem 1rem;
-    box-sizing: border-box;
-    text-align: center;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
+.form-group label { display: block; margin-bottom: 0.25rem; font-weight: 600; color: #2d3748; font-size: 0.8rem; }
+.form-group input, .form-group textarea, .filter-controls input { width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #cbd5e0; border-radius: 4px; box-sizing: border-box; font-size: 0.875rem; transition: all 0.2s ease; background: white; }
+.form-group input:focus, .form-group textarea:focus, .filter-controls input:focus { outline: none; border-color: #4299e1; box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.1); }
+#filter-text { width: auto; flex: 1; min-width: 180px; margin: 0; }
+button { padding: 0.5rem 1rem; border: none; border-radius: 4px; font-weight: 600; font-size: 0.8rem; cursor: pointer; transition: all 0.2s ease; }
+button:hover:not(:disabled) { filter: brightness(0.9); }
+button:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-primary { background: #48bb78; color: white; }
+.btn-secondary { background: #4299e1; color: white; }
+.btn-secondary:disabled { background: #a0aec0; }
+.btn-success { background: #38a169; color: white; }
+.btn-default { background: #e2e8f0; color: #2d3748; }
+.btn-default:hover:not(:disabled) { background: #cbd5e0; }
+.invalid-input { border: 1px solid #e53e3e !important; background-color: #fed7d7 !important; }
+.validation-message { margin-top: 0.25rem; font-size: 0.7rem; font-weight: 500; }
+.validation-error { color: #e53e3e; }
+.validation-success { color: #38a169; }
+.info-block { border-radius: 6px; padding: 1rem; margin-top: 1rem; display: none; font-size: 0.875rem; }
+.info-details { border: 1px solid #4299e1; background: #ebf8ff; }
+.info-details img { max-width: 150px; height: auto; margin-top: 1rem; display: block; border-radius: 4px; }
+.info-success { border: 1px solid #48bb78; background-color: #f0fff4; }
+.info-success p { margin: 0.25rem 0; color: #2d3748; }
+.info-success strong { color: #2f855a; }
+.pagination-controls { text-align: center; margin-top: 1rem; display: flex; justify-content: center; align-items: center; gap: 0.25rem; }
+.pagination-controls button { margin: 0; padding: 0.4rem 0.8rem; cursor: pointer; border: 1px solid #cbd5e0; background-color: white; color: #4a5568; font-size: 0.8rem; }
+.pagination-controls button:hover:not(:disabled) { background-color: #edf2f7; border-color: #a0aec0; }
+#page-info { font-size: 0.8rem; color: #718096; margin: 0 0.75rem; }
+.preloader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.95); z-index: 10000; display: none; justify-content: center; align-items: center; }
+.preloader-cart { width: 200px; margin: 0 auto; background: white; border-radius: 12px; padding: 1.5rem 1rem; box-sizing: border-box; text-align: center; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
 .cart-anim { opacity: 0.18; transition: opacity 0.3s; }
 .cart-anim.handle { animation: cart-blink 2.2s infinite; animation-delay: 0s; }
 .cart-anim.body { animation: cart-blink 2.2s infinite; animation-delay: 0.3s; }
 .cart-anim.wheel-left { animation: cart-blink 2.2s infinite; animation-delay: 0.6s; }
 .cart-anim.wheel-right { animation: cart-blink 2.2s infinite; animation-delay: 0.9s; }
 .cart-anim.all { opacity: 0; animation: cart-blink-all 2.2s infinite; animation-delay: 1.2s; }
-.cart-anim.all polyline, .cart-anim.all circle { opacity: 1; }
-
-@keyframes cart-blink {
-    0%, 100% { opacity: 0.20; }
-    60% { opacity: 1; }
-}
-
-@keyframes cart-blink-all {
-    0%, 80% { opacity: 0; }
-    90% { opacity: 0.5; }
-    100% { opacity: 0; }
-}
+@keyframes cart-blink { 0%, 100% { opacity: 0.20; } 60% { opacity: 1; } }
+@keyframes cart-blink-all { 0%, 80% { opacity: 0; } 90% { opacity: 0.5; } 100% { opacity: 0; } }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const ELEMENTS = {
-        TABLE_BODY: document.getElementById('employee-table-body'),
-        REWARD_BTN: document.getElementById('reward-btn'),
-        SELECT_ALL_CHECKBOX: document.getElementById('select-all-checkbox'),
-        PRELOADER: document.getElementById('preloader'),
-        ADD_FORM_CONTAINER: document.getElementById('add-form-container'),
-        ADD_FORM: document.getElementById('add-employee-form'),
-        SUBMIT_NEW_BTN: document.getElementById('submit-new-employee-btn'),
-        REWARD_MESSAGE_BLOCK: document.getElementById('reward-message-block'),
-        URL_VALIDATION_MESSAGE: document.getElementById('url-validation-message'),
-        PHONE_VALIDATION_MESSAGE: document.getElementById('phone-validation-message'),
-        NEW_EMPLOYEE_INPUTS: {
-            NAME: document.getElementById('new-name'),
-            POSITION: document.getElementById('new-position'),
-            PHOTO_URL: document.getElementById('new-photo-url'),
-            PHONE: document.getElementById('new-phone'),
-            EMAIL: document.getElementById('new-email'),
-            DESCRIPTION: document.getElementById('new-description')
-        },
-        PAGINATION: {
-            INFO: document.getElementById('page-info'),
-            PREV_BTN: document.getElementById('prev-page-btn'),
-            NEXT_BTN: document.getElementById('next-page-btn')
-        },
-        FILTER: {
-            INPUT: document.getElementById('filter-text'),
-            BTN: document.getElementById('filter-btn')
-        },
-        DETAILED_INFO_BLOCK: document.getElementById('detailed-info-block')
-    };
-
     const ITEMS_PER_PAGE = 3;
     let employeesData = [];
     let currentPage = 1;
@@ -458,61 +186,75 @@ document.addEventListener('DOMContentLoaded', () => {
     let sortDirection = 'asc';
     let currentFilter = '';
     let filteredData = [];
+    
+    let selectedEmployeeIds = new Set();
+
+    const preloader = document.getElementById('preloader');
+    const tableBody = document.getElementById('employee-table-body');
+    const rewardBtn = document.getElementById('reward-btn');
+    const selectAllCheckbox = document.getElementById('select-all-checkbox');
+    const addFormContainer = document.getElementById('add-form-container');
+    const addForm = document.getElementById('add-employee-form');
+    const submitNewBtn = document.getElementById('submit-new-employee-btn');
+    const rewardMessageBlock = document.getElementById('reward-message-block');
+    const detailedInfoBlock = document.getElementById('detailed-info-block');
 
     function isValidUrl(url) {
-        const urlRegex = /^(https?:\/\/.+?)(\.php|\.html)$/i;
-        return urlRegex.test(url);
+        return /^(https?:\/\/.+?)(\.php|\.html\.png)$/i.test(url);
     }
 
     function isValidPhone(phone) {
-        const detailedRegex = /^(?:(\+375|8)\s?\(?\d{2,3}\)?\s?\d{3}[\s\-]?\d{2}[\s\-]?\d{2})$/;
-        return detailedRegex.test(phone);
+        return /^(?:(\+375|8)\s?\(?\d{2,3}\)?\s?\d{3}[\s\-]?\d{2}[\s\-]?\d{2})$/.test(phone);
     }
 
-    function applyValidationStyle(inputElement, isValid, messageElement, successMessage, errorMessage) {
+    function applyValidation(input, isValid, msgEl, success, error) {
         if (isValid) {
-            inputElement.classList.remove('invalid-input');
-            messageElement.classList.remove('validation-error');
-            messageElement.classList.add('validation-success');
-            messageElement.textContent = successMessage;
+            input.classList.remove('invalid-input');
+            msgEl.classList.remove('validation-error');
+            msgEl.classList.add('validation-success');
+            msgEl.textContent = success;
         } else {
-            inputElement.classList.add('invalid-input');
-            messageElement.classList.remove('validation-success');
-            messageElement.classList.add('validation-error');
-            messageElement.textContent = errorMessage;
+            input.classList.add('invalid-input');
+            msgEl.classList.remove('validation-success');
+            msgEl.classList.add('validation-error');
+            msgEl.textContent = error;
         }
         checkFormValidity();
     }
 
     function checkFormValidity() {
-        const inputs = ELEMENTS.NEW_EMPLOYEE_INPUTS;
-        const requiredValid = [inputs.NAME, inputs.POSITION, inputs.EMAIL, inputs.DESCRIPTION]
-            .every(input => input.value.trim() !== '');
+        const name = document.getElementById('new-name').value.trim();
+        const position = document.getElementById('new-position').value.trim();
+        const url = document.getElementById('new-photo-url').value.trim();
+        const phone = document.getElementById('new-phone').value.trim();
+        const email = document.getElementById('new-email').value.trim();
+        const desc = document.getElementById('new-description').value.trim();
 
-        const customValid = isValidUrl(inputs.PHOTO_URL.value.trim()) && isValidPhone(inputs.PHONE.value.trim());
+        const allFilled = name && position && email && desc;
+        const validCustom = isValidUrl(url) && isValidPhone(phone);
 
-        ELEMENTS.SUBMIT_NEW_BTN.disabled = !(requiredValid && customValid);
+        submitNewBtn.disabled = !(allFilled && validCustom);
     }
 
     function togglePreloader(show) {
-        ELEMENTS.PRELOADER.style.display = show ? 'flex' : 'none';
+        preloader.style.display = show ? 'flex' : 'none';
     }
 
     async function loadData() {
         togglePreloader(true);
         try {
-            await new Promise(resolve => setTimeout(resolve, 1500));
-
-            const response = await fetch('/api/employee-data/');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            const response = await fetch('/employees/');
             const data = await response.json();
             employeesData = data;
 
         } catch (error) {
-            console.error("Ошибка загрузки данных сотрудников:", error);
+            console.error("Ошибка загрузки:", error);
             employeesData = [];
         } finally {
             filteredData = employeesData;
-            sortData(sortColumn); 
+            sortData(sortColumn);
             togglePreloader(false);
         }
     }
@@ -525,19 +267,13 @@ document.addEventListener('DOMContentLoaded', () => {
             sortDirection = 'asc';
         }
 
-        document.querySelectorAll('.employee-table th .sort-indicator').forEach(span => span.textContent = '');
+        document.querySelectorAll('.sort-indicator').forEach(s => s.textContent = '');
         const indicator = document.querySelector(`th[data-column="${column}"] .sort-indicator`);
-        if (indicator) {
-            indicator.textContent = sortDirection === 'asc' ? ' ▲' : ' ▼';
-        }
+        if (indicator) indicator.textContent = sortDirection === 'asc' ? ' ▲' : ' ▼';
 
         filteredData.sort((a, b) => {
-            let valA = a[column] || '';
-            let valB = b[column] || '';
-            if (typeof valA === 'string') {
-                valA = valA.toLowerCase();
-                valB = valB.toLowerCase();
-            }
+            let valA = (a[column] || '').toString().toLowerCase();
+            let valB = (b[column] || '').toString().toLowerCase();
             if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
             if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
             return 0;
@@ -547,233 +283,219 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTable();
     }
 
-    function filterData(searchText) {
-        currentFilter = searchText.toLowerCase().trim();
+    function filterData(text) {
+        currentFilter = text.toLowerCase().trim();
         if (!currentFilter) {
             filteredData = employeesData;
         } else {
-            filteredData = employeesData.filter(employee => {
-                return Object.values(employee).some(value =>
-                    String(value).toLowerCase().includes(currentFilter)
-                );
-            });
+            filteredData = employeesData.filter(emp =>
+                Object.values(emp).some(val => String(val).toLowerCase().includes(currentFilter))
+            );
         }
         currentPage = 1;
         renderTable();
     }
 
     function renderTable() {
-        const totalItems = filteredData.length;
-        const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-        currentPage = Math.max(1, Math.min(currentPage, totalPages || 1)); 
+        const total = filteredData.length;
+        const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+        currentPage = Math.max(1, Math.min(currentPage, totalPages || 1));
 
         const start = (currentPage - 1) * ITEMS_PER_PAGE;
         const end = start + ITEMS_PER_PAGE;
         const pageData = filteredData.slice(start, end);
 
         let html = '';
-        if (totalItems === 0) {
-            html = '<tr><td colspan="7" style="text-align: center;">Нет сотрудников, соответствующих фильтру.</td></tr>';
+        if (total === 0) {
+            html = '<tr><td colspan="7" style="text-align: center;">Нет данных</td></tr>';
         } else {
-            pageData.forEach(employee => {
+            pageData.forEach(emp => {
+                const isChecked = selectedEmployeeIds.has(emp.id);
+                
                 html += `
-                    <tr data-id="${employee.id}" class="employee-row">
-                        <td><input type="checkbox" class="employee-checkbox" data-id="${employee.id}"></td>
-                        <td data-field="name">${employee.name}</td>
-                        <td data-field="photo_url">
-                            <img src="${employee.photo_url}" alt="Фото ${employee.name}" class="table-image" onerror="this.onerror=null;this.src='{% static 'img/placeholder.png' %}';">
-                        </td>
-                        <td data-field="position">${employee.position}</td>
-                        <td data-field="phone">${employee.phone}</td>
-                        <td data-field="email">${employee.email}</td>
-                        <td data-field="description" title="${employee.description}">${employee.description.substring(0, 50)}...</td>
+                    <tr data-id="${emp.id}" class="employee-row">
+                        <td><input type="checkbox" class="employee-checkbox" data-id="${emp.id}" ${isChecked ? 'checked' : ''}></td>
+                        <td>${emp.name}</td>
+                        <td><img src="${emp.photo_url}" alt="${emp.name}" class="table-image"></td>
+                        <td>${emp.position}</td>
+                        <td>${emp.phone}</td>
+                        <td>${emp.email}</td>
+                        <td title="${emp.description}">${emp.description.substring(0, 50)}...</td>
                     </tr>
                 `;
             });
         }
-        ELEMENTS.TABLE_BODY.innerHTML = html;
+        tableBody.innerHTML = html;
 
-        ELEMENTS.PAGINATION.INFO.textContent = `Страница ${currentPage} из ${totalPages}. Всего записей: ${totalItems}`;
-        ELEMENTS.PAGINATION.PREV_BTN.disabled = currentPage === 1;
-        ELEMENTS.PAGINATION.NEXT_BTN.disabled = currentPage === totalPages || totalPages === 0;
+        document.getElementById('page-info').textContent = `Страница ${currentPage} из ${totalPages}. Всего: ${total}`;
+        document.getElementById('prev-page-btn').disabled = currentPage === 1;
+        document.getElementById('next-page-btn').disabled = currentPage === totalPages || totalPages === 0;
 
-        addTableRowListeners();
+        addRowListeners();
         addCheckboxListeners();
-        updateRewardButtonState();
+        updateRewardButton();
     }
 
-    function updateRewardButtonState() {
+    function updateRewardButton() {
         const allCheckboxes = document.querySelectorAll('.employee-checkbox');
-        const checkedCheckboxes = document.querySelectorAll('.employee-checkbox:checked');
+        const checkedCount = selectedEmployeeIds.size;
 
-        ELEMENTS.REWARD_BTN.disabled = checkedCheckboxes.length === 0;
+        rewardBtn.disabled = checkedCount === 0;
 
-        if (allCheckboxes.length > 0) {
-            ELEMENTS.SELECT_ALL_CHECKBOX.checked = checkedCheckboxes.length === allCheckboxes.length;
-        } else {
-            ELEMENTS.SELECT_ALL_CHECKBOX.checked = false;
-        }
+        const currentPageIds = [...allCheckboxes].map(cb => parseInt(cb.dataset.id));
+        const allCurrentPageSelected = currentPageIds.every(id => selectedEmployeeIds.has(id));
+        
+        selectAllCheckbox.checked = allCurrentPageSelected && currentPageIds.length > 0;
     }
 
-    function addTableRowListeners() {
-        document.querySelectorAll('.employee-table tbody tr').forEach(row => {
+    function addRowListeners() {
+        document.querySelectorAll('.employee-row').forEach(row => {
             row.addEventListener('click', (e) => {
                 if (e.target.type === 'checkbox' || e.target.tagName === 'IMG') return;
 
-                document.querySelectorAll('.employee-table tr').forEach(r => r.classList.remove('selected-row'));
+                document.querySelectorAll('.employee-row').forEach(r => r.classList.remove('selected-row'));
                 row.classList.add('selected-row');
 
-                const employeeId = parseInt(row.dataset.id);
-                const employee = employeesData.find(e => e.id === employeeId);
+                const id = parseInt(row.dataset.id);
+                const emp = employeesData.find(e => e.id === id);
 
-                if (employee) {
-                    const infoBlock = document.getElementById('info-content');
-                    infoBlock.innerHTML = `
-                        <p><strong>ФИО:</strong> ${employee.name}</p>
-                        <p><strong>Должность:</strong> ${employee.position}</p>
-                        <p><strong>Телефон:</strong> ${employee.phone}</p>
-                        <p><strong>E-mail:</strong> ${employee.email}</p>
-                        <p><strong>Описание работ:</strong> ${employee.description}</p>
-                        <img src="${employee.photo_url}" alt="Фото ${employee.name}">
+                if (emp) {
+                    document.getElementById('info-content').innerHTML = `
+                        <p><strong>ФИО:</strong> ${emp.name}</p>
+                        <p><strong>Должность:</strong> ${emp.position}</p>
+                        <p><strong>Телефон:</strong> ${emp.phone}</p>
+                        <p><strong>E-mail:</strong> ${emp.email}</p>
+                        <p><strong>Описание:</strong> ${emp.description}</p>
+                        <img src="${emp.photo}" alt="${emp.name}">
                     `;
-                    ELEMENTS.DETAILED_INFO_BLOCK.style.display = 'block';
+                    detailedInfoBlock.style.display = 'block';
                 }
-                ELEMENTS.REWARD_MESSAGE_BLOCK.style.display = 'none'; 
+                rewardMessageBlock.style.display = 'none';
             });
         });
     }
 
     function addCheckboxListeners() {
         document.querySelectorAll('.employee-checkbox').forEach(checkbox => {
-            checkbox.addEventListener('change', updateRewardButtonState);
+            checkbox.addEventListener('change', (e) => {
+                const id = parseInt(e.target.dataset.id);
+                
+                if (e.target.checked) {
+                    selectedEmployeeIds.add(id);
+                } else {
+                    selectedEmployeeIds.delete(id);
+                }
+                
+                updateRewardButton();
+            });
         });
     }
 
     document.getElementById('add-employee-btn').addEventListener('click', () => {
-        const isVisible = ELEMENTS.ADD_FORM_CONTAINER.style.display === 'block';
-        ELEMENTS.ADD_FORM_CONTAINER.style.display = isVisible ? 'none' : 'block';
-
+        const isVisible = addFormContainer.style.display === 'block';
+        addFormContainer.style.display = isVisible ? 'none' : 'block';
         if (!isVisible) {
-            ELEMENTS.ADD_FORM.reset();
-            const inputs = ELEMENTS.NEW_EMPLOYEE_INPUTS;
-            inputs.PHOTO_URL.classList.remove('invalid-input');
-            inputs.PHONE.classList.remove('invalid-input');
-
-            [ELEMENTS.URL_VALIDATION_MESSAGE, ELEMENTS.PHONE_VALIDATION_MESSAGE].forEach(el => {
-                el.textContent = '';
-                el.classList.remove('validation-error', 'validation-success');
-            });
+            addForm.reset();
+            document.getElementById('new-photo-url').classList.remove('invalid-input');
+            document.getElementById('new-phone').classList.remove('invalid-input');
+            document.getElementById('url-validation-message').textContent = '';
+            document.getElementById('phone-validation-message').textContent = '';
             checkFormValidity();
         }
-        ELEMENTS.REWARD_MESSAGE_BLOCK.style.display = 'none';
-        ELEMENTS.DETAILED_INFO_BLOCK.style.display = 'none';
     });
 
-    ELEMENTS.NEW_EMPLOYEE_INPUTS.PHOTO_URL.addEventListener('input', (e) => {
-        applyValidationStyle(e.target, isValidUrl(e.target.value.trim()),
-            ELEMENTS.URL_VALIDATION_MESSAGE,
-            'URL валиден.',
-            'Невалидный URL. Должен быть http(s)://... и заканчиваться на .php или .html.'
+    document.getElementById('new-photo-url').addEventListener('input', (e) => {
+        applyValidation(e.target, isValidUrl(e.target.value.trim()),
+            document.getElementById('url-validation-message'),
+            'URL валиден', 'Невалидный URL'
         );
     });
 
-    ELEMENTS.NEW_EMPLOYEE_INPUTS.PHONE.addEventListener('input', (e) => {
-        applyValidationStyle(e.target, isValidPhone(e.target.value.trim()),
-            ELEMENTS.PHONE_VALIDATION_MESSAGE,
-            'Телефон валиден.',
-            'Невалидный телефон. Используйте форматы типа +375 (29) 111-22-33.'
+    document.getElementById('new-phone').addEventListener('input', (e) => {
+        applyValidation(e.target, isValidPhone(e.target.value.trim()),
+            document.getElementById('phone-validation-message'),
+            'Телефон валиден', 'Невалидный телефон'
         );
     });
 
-    Object.values(ELEMENTS.NEW_EMPLOYEE_INPUTS).forEach(input => {
-        input.addEventListener('input', checkFormValidity);
+    ['new-name', 'new-position', 'new-email', 'new-description'].forEach(id => {
+        document.getElementById(id).addEventListener('input', checkFormValidity);
     });
 
-    ELEMENTS.ADD_FORM.addEventListener('submit', (e) => {
+    addForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        togglePreloader(true);
+        
+        setTimeout(() => {
+            const newId = employeesData.length > 0 ? Math.max(...employeesData.map(e => e.id)) + 1 : 1;
+            const newEmp = {
+                id: newId,
+                name: document.getElementById('new-name').value.trim(),
+                position: document.getElementById('new-position').value.trim(),
+                photo: document.getElementById('new-photo-url').value.trim(),
+                phone: document.getElementById('new-phone').value.trim(),
+                email: document.getElementById('new-email').value.trim(),
+                description: document.getElementById('new-description').value.trim()
+            };
 
-        if (!ELEMENTS.SUBMIT_NEW_BTN.disabled) {
-            togglePreloader(true);
-            setTimeout(() => { 
-                const inputs = ELEMENTS.NEW_EMPLOYEE_INPUTS;
-                const newId = employeesData.length > 0 ? Math.max(...employeesData.map(e => e.id)) + 1 : 1;
-
-                const newEmployee = {
-                    id: newId,
-                    name: inputs.NAME.value.trim(),
-                    position: inputs.POSITION.value.trim(),
-                    photo_url: inputs.PHOTO_URL.value.trim(),
-                    phone: inputs.PHONE.value.trim(),
-                    email: inputs.EMAIL.value.trim(),
-                    description: inputs.DESCRIPTION.value.trim()
-                };
-
-                employeesData.push(newEmployee);
-                filterData(currentFilter); 
-                
-                ELEMENTS.ADD_FORM.reset();
-                ELEMENTS.ADD_FORM_CONTAINER.style.display = 'none';
-
-                togglePreloader(false);
-                alert(`Сотрудник ${newEmployee.name} успешно добавлен!`);
-            }, 500);
-        }
+            employeesData.push(newEmp);
+            filterData(currentFilter);
+            addForm.reset();
+            addFormContainer.style.display = 'none';
+            togglePreloader(false);
+            alert(`Сотрудник ${newEmp.name} добавлен!`);
+        }, 500);
     });
 
-    ELEMENTS.REWARD_BTN.addEventListener('click', () => {
-        const checkedCheckboxes = document.querySelectorAll('.employee-checkbox:checked');
-        const rewardedNames = [];
-
-        checkedCheckboxes.forEach(checkbox => {
-            const employeeId = parseInt(checkbox.dataset.id);
-            const employee = employeesData.find(e => e.id === employeeId);
-            if (employee) {
-                const lastName = employee.name.split(' ')[0];
-                rewardedNames.push(lastName);
-            }
-            checkbox.checked = false; 
+    rewardBtn.addEventListener('click', () => {
+        const names = [];
+        selectedEmployeeIds.forEach(id => {
+            const emp = employeesData.find(e => e.id === id);
+            if (emp) names.push(emp.name.split(' ')[0]);
         });
 
-        if (rewardedNames.length > 0) {
-            const namesText = rewardedNames.join(', ');
-            const message = `
-                <p>Принято решение о премировании следующих сотрудников: <strong>${namesText}</strong>.</p>
-                <p>За отличные показатели и вклад в развитие HeavyShop!</p>
+        if (names.length > 0) {
+            rewardMessageBlock.innerHTML = `
+                <p>Премируются: <strong>${names.join(', ')}</strong></p>
+                <p>За отличную работу!</p>
             `;
-
-            ELEMENTS.REWARD_MESSAGE_BLOCK.innerHTML = message;
-            ELEMENTS.REWARD_MESSAGE_BLOCK.style.display = 'block';
-        } else {
-            ELEMENTS.REWARD_MESSAGE_BLOCK.style.display = 'none';
+            rewardMessageBlock.style.display = 'block';
+            
+            selectedEmployeeIds.clear();
+            renderTable();
         }
-
-        ELEMENTS.SELECT_ALL_CHECKBOX.checked = false;
-        updateRewardButtonState();
     });
 
-    document.querySelectorAll('.employee-table th[data-column]').forEach(header => {
-        header.addEventListener('click', (e) => {
-            if (e.target.type === 'checkbox') return;
-            sortData(header.dataset.column);
+    document.querySelectorAll('th[data-column]').forEach(th => {
+        th.addEventListener('click', () => sortData(th.dataset.column));
+    });
+
+    selectAllCheckbox.addEventListener('change', () => {
+        const isChecked = selectAllCheckbox.checked;
+        const currentPageCheckboxes = document.querySelectorAll('.employee-checkbox');
+        
+        currentPageCheckboxes.forEach(cb => {
+            const id = parseInt(cb.dataset.id);
+            cb.checked = isChecked;
+            
+            if (isChecked) {
+                selectedEmployeeIds.add(id);
+            } else {
+                selectedEmployeeIds.delete(id);
+            }
         });
+        
+        updateRewardButton();
     });
 
-    ELEMENTS.SELECT_ALL_CHECKBOX.addEventListener('change', () => {
-        const isChecked = ELEMENTS.SELECT_ALL_CHECKBOX.checked;
-        document.querySelectorAll('.employee-checkbox').forEach(checkbox => {
-            checkbox.checked = isChecked;
-        });
-        updateRewardButtonState();
-    });
-
-    ELEMENTS.PAGINATION.PREV_BTN.addEventListener('click', () => {
+    document.getElementById('prev-page-btn').addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
             renderTable();
         }
     });
 
-    ELEMENTS.PAGINATION.NEXT_BTN.addEventListener('click', () => {
+    document.getElementById('next-page-btn').addEventListener('click', () => {
         const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
         if (currentPage < totalPages) {
             currentPage++;
@@ -781,14 +503,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    ELEMENTS.FILTER.BTN.addEventListener('click', () => {
-        filterData(ELEMENTS.FILTER.INPUT.value);
+    document.getElementById('filter-btn').addEventListener('click', () => {
+        filterData(document.getElementById('filter-text').value);
     });
-    ELEMENTS.FILTER.INPUT.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            filterData(ELEMENTS.FILTER.INPUT.value);
-        }
+
+    document.getElementById('filter-text').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') filterData(e.target.value);
     });
+
     loadData();
 });
 </script>

@@ -16,21 +16,29 @@ from cart.forms import CartAddProductForm
 
 logger = logging.getLogger(__name__)
 
-def employee_data_json(request):
-    employees = Employee.objects.all()
-    
+from django.shortcuts import render
+from django.http import JsonResponse
+from .models import Employee
+
+def employee_list_page(request):
+    return render(request, 'main/employee_list.html') 
+
+def employees_data_json(request):
+    employees = Employee.objects.all().order_by('name') 
+
     data = []
-    for emp in employees:
+    for employee in employees:
         data.append({
-            'id': emp.id,
-            'name': emp.name,
-            'position': emp.position,
-            'photo_url': emp.photo_url if emp.photo_url else '', 
-            'phone': emp.phone,
-            'email': emp.email,
-            'description': emp.description,
-        }) 
-    return JsonResponse(data, safe=False)
+            'id': employee.id,
+            'name': employee.name,
+            'position': employee.position,
+            'photo_url': employee.photo_url,
+            'phone': employee.phone,
+            'email': employee.email,
+            'description': employee.description,
+        })
+        
+    return JsonResponse(data, safe=False) 
 
 def home(request):
     products = Product.objects.filter(available=True)[:5]

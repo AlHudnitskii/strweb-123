@@ -71,8 +71,8 @@
             </div>
         </div>
 
-        <button class="slider-nav prev-btn" aria-label="Предыдущий слайд">❮</button>
-        <button class="slider-nav next-btn" aria-label="Следующий слайд">❯</button>
+        <button class="slider-nav prev-btn" aria-label="Предыдущий слайд"><</button>
+        <button class="slider-nav next-btn" aria-label="Следующий слайд">></button>
 
         <div class="slider-pagination-dots"></div>
 
@@ -169,13 +169,9 @@
 class CustomSlider {
     constructor(containerId, options = {}) {
         this.container = document.getElementById(containerId);
-        if (!this.container) return;
-
         this.wrapper = this.container.querySelector('.slider-wrapper');
         this.slides = Array.from(this.container.querySelectorAll('.slider-item'));
         this.totalSlides = this.slides.length;
-
-        if (this.totalSlides === 0) return;
 
         this.currentIndex = 0;
         this.intervalId = null;
@@ -228,8 +224,8 @@ class CustomSlider {
         
         this.prevBtn.classList.toggle('hidden', !this.settings.navs);
         this.nextBtn.classList.toggle('hidden', !this.settings.navs);
-        
         this.paginationContainer.classList.toggle('hidden', !this.settings.pags);
+        
         if (this.settings.pags && this.paginationContainer.children.length === 0) {
             this.createPaginationDots();
         }
@@ -335,20 +331,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const form = document.getElementById('slider-settings-form');
     
-    if (form) {
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
             
-            const newSettings = getFormSettings();
+        const newSettings = getFormSettings();
 
-            if (!isNaN(newSettings.delay) && newSettings.delay > 0) {
-                mySlider.applySettings(newSettings);
-                alert('Настройки слайдера применены!');
-            } else {
-                alert('Ошибка: Интервал ротации должен быть целым числом больше 0.');
-            }
-        });
-    }
+        mySlider.applySettings(newSettings);
+        alert('Slider settings applied!');
+    });
 });
 </script>
 {% endblock %}

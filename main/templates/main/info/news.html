@@ -12,7 +12,9 @@
 
 {% block content %}
 <main role="main">
-    <section class="scroll-animation-section" id="animation-section-dummy" style="height: 150vh;"></section>
+    <section class="scroll-animation-section" id="animation-zone" style="height: 150vh; position: relative;">
+        <h2 style="text-align: center; padding: 20px;">Scroll xD</h2>
+    </section>
     
     <section aria-labelledby="news-heading">
         {% if selected_article %}
@@ -41,17 +43,17 @@
         {% else %}
             <div class="news-container">
                 {% for article in articles %}
-                <details itemscope itemtype="http://schema.org/Article"  class="article-columns">
+                <details itemscope itemtype="http://schema.org/Article" class="article-columns">
                     <summary class="news_preview">
                         {% if article.image %}
                         <img src="{{ article.image.url }}" alt="{{ article.title }}" itemprop="image" width="300" height="600" style="max-width: 100%; height: auto;">
                         {% endif %}
                         <div>
-                            <h2 itemprop="headline" class='news_preview' >{{ article.title }}</h2>
+                            <h2 itemprop="headline" class='news_preview'>{{ article.title }}</h2>
                             <time datetime="{{ article.created_at|date:'Y-m-d' }}" itemprop="datePublished">
                                 {{ article.created_at|date:"F d, Y" }}
                             </time>
-                            <p itemprop="description" class="news_preview ">{{ article.short_info }}</p>
+                            <p itemprop="description" class="news_preview">{{ article.short_info }}</p>
                         </div>
                     </summary>
                     
@@ -59,7 +61,7 @@
                         {% if article.image %}
                         <img src="{{ article.image.url }}" alt="{{ article.title }}" itemprop="image" width="300" height="600" style="max-width: 100%; height: auto;">
                         {% endif %}
-                        <p>{{ article.content|linebreaks }}<p>
+                        <p>{{ article.content|linebreaks }}</p>
                     </div>
                 </details>
                 {% empty %}
@@ -78,154 +80,106 @@
     </nav>
     <p>&copy; 2025 HeavyShop LLC. All rights reserved.</p>
 </footer>
-<div>
-    <button id="pause">Pause</button> 
-    <button id="play">Play</button>
-    <button id="cancel">Cancel</button>
-    <button id="faster">Faster</button>
-    <button id="slower">Slower</button>
+
+<div id="scroll-container"></div>
+
+<div style="padding: 20px; border: 2px solid #333; margin: 20px auto; max-width: 600px;">
+    <h3>Web Animation</h3>
+    <div>
+        <button id="pause">Pause</button>
+        <button id="play">Play</button>
+        <button id="cancel">Cancel</button>
+        <button id="faster">Faster</button>
+        <button id="slower">Slower</button>
+    </div>
+    <div id="animated-box"></div>
 </div>
-<div id="rect"></div>
+
 <style>
-    #scroll-animation-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; pointer-events: none; z-index: 10; overflow: hidden; }
-    #shopping-cart { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); transition: none; will-change: transform; z-index: 12; }
-    .falling-product { position: absolute; font-size: 48px; top: -100px; opacity: 0; will-change: transform, opacity; z-index: 11; }
-    #animation-section-dummy { pointer-events: none; }
-    #rect { width:50px; height: 50px; background-color: green; margin-top: 20px; }
+    #scroll-container { 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100vh; 
+        pointer-events: none; 
+        z-index: 100; 
+    }
+    
+    .scroll-item { 
+        position: absolute; 
+        font-size: 60px; 
+        opacity: 0; 
+        transition: none; 
+    }
+    
+    #animated-box {
+        width: 50px;
+        height: 50px;
+        background-color: green;
+        margin-top: 20px;
+    }
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const dummySection = document.getElementById('animation-section-dummy');
+document.addEventListener('DOMContentLoaded', () => {
+    const zone = document.getElementById('animation-zone');
+    const container = document.getElementById('scroll-container');
     
-    let animationContainer = document.getElementById('scroll-animation-container');
-    if (!animationContainer) {
-        animationContainer = document.createElement('div');
-        animationContainer.id = 'scroll-animation-container';
-        document.body.appendChild(animationContainer);
-    }
-    
-    cart = document.createElement('div');
-    cart.id = 'shopping-cart';
-    cart.innerHTML = `
-        <svg width="120" height="100" viewBox="0 0 120 100" style="filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
-            <path d="M20 30 L100 30 L95 70 Q95 75 90 75 L30 75 Q25 75 25 70 Z" 
-                fill="#FF6B35" stroke="#333" stroke-width="3"/>
-            <circle cx="38" cy="85" r="6" fill="#333"/>
-            <circle cx="82" cy="85" r="6" fill="#333"/>
-            <path d="M10 20 L25 20 L30 30" fill="none" stroke="#333" stroke-width="3"/>
-        </svg>
-    `;
-    animationContainer.appendChild(cart);
-
-    const productsData = [
-        { emoji: '🔨', startX: -200, endX: -20, swayFactor: 1 },
-        { emoji: '🔧', startX: 250, endX: 30, swayFactor: -1.2 },
-        { emoji: '⚙️', startX: -300, endX: 5, swayFactor: 0.8 },
+    const items = [
+        { emoji: '🔨', x: 20 },
+        { emoji: '🔧', x: 45 },
+        { emoji: '⚙️', x: 70 }
     ];
     
-    const productElements = [];
-    const animationObjects = [];
-
-    productsData.forEach((product, index) => {
-        let productEl = document.querySelector(`.falling-product[data-index="${index}"]`);
-        if (!productEl) {
-            productEl = document.createElement('div');
-            productEl.className = 'falling-product';
-            productEl.innerHTML = `<span style="font-size: 48px;">${product.emoji}</span>`;
-            productEl.setAttribute('data-index', index);
-            productEl.style.left = `calc(50% + ${product.startX}px)`;
-            animationContainer.appendChild(productEl);
-        }
-        productElements.push(productEl);
+    const elements = items.map(item => {
+        const el = document.createElement('div');
+        el.className = 'scroll-item';
+        el.textContent = item.emoji;
+        el.style.left = item.x + '%';
+        container.appendChild(el);
+        return el;
     });
     
-    function createProductAnimation(product, index) {
-        const productData = productsData[index];
-        const startY = -100;
-        const endY = window.innerHeight - 250; 
-        const delay = index * 0.1; 
-        const swayFreq = 10;
-        const swayAmp = 40;
-        const totalDuration = 0.8; 
+    function update() {
+        const rect = zone.getBoundingClientRect();
+        const progress = 1 - (rect.bottom / (rect.height + window.innerHeight));
+        const clamp = Math.max(0, Math.min(1, progress));
         
-        return function(scrollProgress) {
-            let adjustedProgress = Math.max(0, Math.min(1, (scrollProgress - delay) / totalDuration));
-            let currentY = startY + (endY - startY) * adjustedProgress;
-            let swayX = Math.sin(adjustedProgress * swayFreq) * swayAmp * productData.swayFactor;
-            let rotation = adjustedProgress * 720 * productData.swayFactor;
-
-            if (adjustedProgress > 0.9) {
-                const bounceProgress = (adjustedProgress - 0.9) / 0.1; 
-                const bounceY = Math.sin(bounceProgress * Math.PI) * 20; 
-                currentY += bounceY;
-            }
+        elements.forEach((el, i) => {
+            const delay = i * 0.15;
+            const itemProgress = Math.max(0, Math.min(1, (clamp - delay) / 0.7));
             
-            product.style.top = `${currentY}px`;
-            product.style.transform = `translateX(${productData.endX + swayX}px) rotate(${rotation}deg)`;
-            product.style.opacity = adjustedProgress > 0 && adjustedProgress < 1 ? '1' : '0';
-        };
-    }
-
-    productElements.forEach((el, index) => {
-        animationObjects.push({
-            animate: createProductAnimation(el, index)
-        });
-    });
-
-    function updateScrollAnimation() {
-        const scrollY = window.scrollY;
-        
-        const animationHeight = dummySection.offsetHeight;
-        const startScroll = dummySection.offsetTop;
-        
-        const endScroll = startScroll + animationHeight - window.innerHeight;
-
-        let scrollProgress = (scrollY - startScroll) / (endScroll - startScroll);
-        scrollProgress = Math.max(0, Math.min(1, scrollProgress)); 
-
-        const cartBottom = 50; 
-        const cartStart = -150;
-        const currentCartBottom = cartStart + (cartBottom - cartStart) * scrollProgress;
-        
-        cart.style.bottom = `${currentCartBottom}px`;
-        
-        const swing = Math.sin(scrollProgress * 15) * 5 * scrollProgress;
-        cart.style.transform = `translateX(-50%) rotate(${swing}deg)`;
-
-        animationObjects.forEach(obj => {
-            obj.animate(scrollProgress);
+            const y = -100 + (window.innerHeight - 100) * itemProgress;
+            
+            el.style.top = y + 'px';
+            el.style.opacity = itemProgress > 0 && itemProgress < 1 ? 1 : 0;
+            el.style.transform = `rotate(${itemProgress * 360}deg)`;
         });
     }
     
-    window.addEventListener('scroll', updateScrollAnimation, { passive: true });
-    window.addEventListener('resize', updateScrollAnimation);
-    updateScrollAnimation();     
+    window.addEventListener('scroll', update, { passive: true });
+    update();
 });
 
-const rect = document.getElementById("rect");
-const frames = [{
-    marginLeft: "50px",      
-    offset: 0    
-},{      
-    marginLeft: "100px",
-    offset: 0.3    
-},{      
-    marginLeft: "150px",   
-    offset: 0.6    
-},{      
-    marginLeft: "200px",    
-    offset: 1    
-}];
+const box = document.getElementById("animated-box");
 
-const config = {    
-    duration: 600,          
+const frames = [
+    { marginLeft: "50px", offset: 0 },
+    { marginLeft: "100px", offset: 0.3 },
+    { marginLeft: "150px", offset: 0.6 },
+    { marginLeft: "200px", offset: 1 }
+];
+
+const config = {
+    duration: 600,
     easing: "ease-in-out",
     iterations: Infinity,
     direction: "alternate"
 };
-const animation = rect.animate(frames, config);
- 
+
+const animation = box.animate(frames, config);
+
 document.getElementById("pause").addEventListener("click", () => animation.pause());
 document.getElementById("play").addEventListener("click", () => animation.play());
 document.getElementById("cancel").addEventListener("click", () => animation.cancel());
